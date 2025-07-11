@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chaitanya Potti - Portfolio</title>
     
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,7 +33,6 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 theme-transition">
 
-    <!-- Header -->
     <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-md theme-transition">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#home" class="text-2xl font-bold text-blue-600 dark:text-blue-400">CP</a>
@@ -51,14 +48,6 @@
                  <a href="https://drive.google.com/file/d/14JNxl_FtjNCZ-JjcW2QWRCZ5Wpu1tabD/view?usp=sharing" download="JohnDoe_Resume.pdf" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full text-sm mr-4 theme-transition hidden sm:block">
                     Download CV
                 </a>
-               <!--  <button id="theme-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none">
-                    <svg id="theme-icon-light" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button> -->
                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -66,7 +55,6 @@
                 </button>
             </div>
         </div>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
             <a href="#home" class="block py-2 nav-link">Home</a>
             <a href="#about" class="block py-2 nav-link">About</a>
@@ -81,7 +69,6 @@
     </header>
 
     <main class="container mx-auto px-6 pt-24">
-        <!-- Home Section -->
         <section id="home" class="min-h-screen flex items-center">
             <div class="text-center w-full">
                 <h1 class="text-5xl md:text-7xl font-bold mb-4">Chaitanya P</h1>
@@ -97,7 +84,6 @@
             </div>
         </section>
 
-        <!-- About Section -->
         <section id="about" class="py-20 scroll-mt-20">
             <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
             <div class="flex flex-col md:flex-row items-center gap-12">
@@ -126,11 +112,9 @@
             </div>
         </section>
         
-        <!-- Projects Section -->
         <section id="projects" class="py-20 scroll-mt-20">
             <h2 class="text-4xl font-bold text-center mb-12">My Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project Card 1 -->
                 <div class="project-card">
                     <img src="project1.png" alt="Project One" class="rounded-t-lg">
                     <div class="p-6">
@@ -141,7 +125,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Project Card 2 -->
                 <div class="project-card">
                     <img src="project3.png" alt="Project Two" class="rounded-t-lg">
                     <div class="p-6">
@@ -152,7 +135,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Project Card 3 -->
                 <div class="project-card">
                     <img src="project2.png" alt="Project Three" class="rounded-t-lg">
                     <div class="p-6">
@@ -166,11 +148,9 @@
             </div>
         </section>
 
-        <!-- Internships Section -->
         <section id="internships" class="py-20 scroll-mt-20">
             <h2 class="text-4xl font-bold text-center mb-12">Internships</h2>
             <div class="relative border-l-2 border-blue-500 dark:border-blue-400 ml-6">
-                <!-- Internship Item 1 -->
                 <div class="mb-10 ml-6">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
                         <svg class="w-3 h-3 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4zM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10zM5 13h2v2H5v-2z"></path></svg>
@@ -179,9 +159,8 @@
                     <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">June 2024 - October 2024 | Demy Software Solutions Inc.</time>
                     <p class="text-base font-normal text-gray-600 dark:text-gray-400">Developed responsive web interfaces with React.js, built RESTful APIs using Spring Boot and MySQL, and collaborated in Agile sprints.</p>
                 </div>
-                <!-- Internship Item 2 -->
                 <div class="mb-10 ml-6">
-                     <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
                         <svg class="w-3 h-3 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4zM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10zM5 13h2v2H5v-2z"></path></svg>
                     </span>
                     <h3 class="mb-1 text-lg font-semibold">DevOps Intern</h3>
@@ -191,7 +170,6 @@
             </div>
         </section>
 
-        <!-- Education Section -->
         <section id="education" class="py-20 scroll-mt-20">
             <h2 class="text-4xl font-bold text-center mb-12">Education</h2>
             <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 theme-transition">
@@ -202,7 +180,6 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="py-20 scroll-mt-20">
             <h2 class="text-4xl font-bold text-center mb-4">Get In Touch</h2>
             <p class="text-center text-lg text-gray-600 dark:text-gray-400 mb-12">I'm currently open to new opportunities. Feel free to reach out!</p>
@@ -230,7 +207,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 py-6 theme-transition">
         <div class="container mx-auto px-6 text-center text-gray-600 dark:text-gray-400">
             <p>&copy; 2025 Chaitanya P. All Rights Reserved.</p>
@@ -239,39 +215,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- Theme Toggler ---
-            const themeToggle = document.getElementById('theme-toggle');
-            const lightIcon = document.getElementById('theme-icon-light');
-            const darkIcon = document.getElementById('theme-icon-dark');
-
-            // Check for saved theme in localStorage
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                darkIcon.classList.remove('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                lightIcon.classList.remove('hidden');
-            }
-
-            themeToggle.addEventListener('click', function() {
-                // toggle theme
-                document.documentElement.classList.toggle('dark');
-                
-                // toggle icons
-                lightIcon.classList.toggle('hidden');
-                darkIcon.classList.toggle('hidden');
-
-                // save theme to localStorage
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-
             // --- Mobile Menu ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
@@ -314,8 +261,6 @@
             });
             
             // --- Apply common styles with Tailwind's @apply directive (via JS) ---
-            // This is a workaround since we can't use @apply in a <style> tag directly in HTML
-            // In a real project, this would be in your main CSS file.
             const applyStyles = (selector, styles) => {
                 document.querySelectorAll(selector).forEach(el => {
                     el.classList.add(...styles.split(' '));
