@@ -1,1457 +1,975 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Chaitanya Potti — Software Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-<style>
-  :root {
-    --bg: #080808;
-    --bg2: #111111;
-    --bg3: #1a1a1a;
-    --accent: #c8ff00;
-    --accent2: #00ffc2;
-    --text: #f0f0f0;
-    --muted: #666;
-    --border: #222;
-    --mono: 'IBM Plex Mono', monospace;
-    --display: 'Bebas Neue', sans-serif;
-    --sans: 'Syne', sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; overflow-x: hidden; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    overflow-x: hidden;
-    max-width: 100vw;
-    cursor: none;
-  }
-
-  /* CUSTOM CURSOR */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-    mix-blend-mode: difference;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 3rem;
-    border-bottom: 1px solid transparent;
-    transition: all 0.4s ease;
-  }
-  nav.scrolled {
-    background: rgba(8,8,8,0.92);
-    border-color: var(--border);
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo {
-    font-family: var(--display);
-    font-size: 1.6rem;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-  }
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 0 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-    opacity: 0.4;
-  }
-
-  .hero-accent-line {
-    position: absolute;
-    top: 50%;
-    left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.15;
-  }
-
-  .hero-left { position: relative; z-index: 1; }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.3s forwards;
-  }
-  .hero-tag::before {
-    content: '';
-    width: 20px; height: 1px;
-    background: var(--accent);
-  }
-
-  .hero-name {
-    font-family: var(--display);
-    font-size: clamp(5rem, 10vw, 9rem);
-    line-height: 0.9;
-    letter-spacing: 0.03em;
-    color: var(--text);
-    opacity: 0;
-    animation: fadeUp 0.8s 0.5s forwards;
-  }
-
-  .hero-name span { color: var(--accent); }
-
-  .hero-subtitle {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-top: 1.5rem;
-    max-width: min(420px, 100%);
-    line-height: 1.8;
-    word-break: break-word;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.7s forwards;
-  }
-
-  .hero-cta {
-    margin-top: 2.5rem;
-    display: flex;
-    gap: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.9s forwards;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: var(--accent);
-    color: #080808;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0.9rem 1.8rem;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    transition: all 0.2s;
-  }
-  .btn-primary:hover {
-    background: var(--accent2);
-    transform: translate(-2px, -2px);
-  }
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: transparent;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0.9rem 1.8rem;
-    border: 1px solid var(--border);
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translate(-2px, -2px);
-  }
-
-  /* TERMINAL BOX */
-  .hero-right {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: flex-end;
-    opacity: 0;
-    animation: fadeLeft 0.8s 0.6s forwards;
-  }
-
-  .terminal {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    width: 100%;
-    max-width: 480px;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-  }
-  .terminal-bar {
-    background: var(--bg3);
-    padding: 0.8rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-r { background: #ff5f57; }
-  .dot-y { background: #ffbd2e; }
-  .dot-g { background: #28ca42; }
-  .terminal-title {
-    font-size: 0.65rem;
-    color: var(--muted);
-    margin-left: auto;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 160px;
-  }
-  .terminal-body { padding: 1.5rem; font-size: 0.78rem; line-height: 2; overflow: hidden; }
-  .line {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    word-break: break-all;
-    overflow-wrap: anywhere;
-  }
-  .prompt { color: var(--accent); flex-shrink: 0; }
-  .cmd { color: var(--text); }
-  .out {
-    color: var(--muted);
-    padding-left: 1.2rem;
-    word-break: break-all;
-    overflow-wrap: anywhere;
-    max-width: 100%;
-  }
-  .out.green { color: var(--accent2); }
-  .out.highlight { color: var(--accent); }
-  .blink { animation: blink 1s step-end infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* STATUS */
-  .status-bar {
-    position: absolute;
-    bottom: 2rem;
-    left: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeUp 0.8s 1.1s forwards;
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(200, 255, 0, 0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(200, 255, 0, 0); }
-  }
-
-  /* SECTIONS COMMON */
-  section {
-    position: relative;
-    z-index: 1;
-  }
-
-  .section-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 6rem 3rem;
-  }
-
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 4rem;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .section-num {
-    color: var(--muted);
-    font-size: 0.6rem;
-  }
-
-  .section-heading {
-    font-family: var(--display);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    margin-bottom: 1.5rem;
-  }
-
-  /* ABOUT */
-  #about { background: var(--bg); }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-
-  .about-text p {
-    font-size: 0.82rem;
-    line-height: 2;
-    color: #aaa;
-    margin-bottom: 1.2rem;
-  }
-  .about-text p strong { color: var(--text); font-weight: 600; }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .stat-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 1.8rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--accent);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.3s;
-  }
-  .stat-card:hover::before { transform: scaleY(1); }
-  .stat-card:hover { border-color: var(--accent); }
-
-  .stat-num {
-    font-family: var(--display);
-    font-size: 3rem;
-    line-height: 1;
-    color: var(--accent);
-  }
-  .stat-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.4rem;
-  }
-
-  /* SKILLS */
-  #skills { background: var(--bg2); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .skill-group {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    transition: all 0.3s;
-    position: relative;
-  }
-  .skill-group:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-  }
-
-  .skill-group-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  .skill-group-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .skill-item {
-    margin-bottom: 1.1rem;
-  }
-  .skill-name {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    margin-bottom: 0.4rem;
-    color: var(--text);
-  }
-  .skill-pct { color: var(--muted); }
-
-  .skill-bar {
-    height: 2px;
-    background: var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .skill-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    width: 0%;
-    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  /* EXPERIENCE */
-  #experience { background: var(--bg); }
-
-  .timeline {
-    position: relative;
-    padding-left: 2rem;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    position: relative;
-    padding: 0 0 3rem 3rem;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.6s ease;
-  }
-  .timeline-item.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: -0.5rem;
-    top: 0.2rem;
-    width: 16px; height: 16px;
-    background: var(--bg);
-    border: 2px solid var(--accent);
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  }
-
-  .timeline-date {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.6rem;
-  }
-  .timeline-role {
-    font-family: var(--sans);
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
-  .timeline-company {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
-  .timeline-points {
-    list-style: none;
-  }
-  .timeline-points li {
-    font-size: 0.78rem;
-    color: #999;
-    line-height: 1.8;
-    padding-left: 1.2rem;
-    position: relative;
-    margin-bottom: 0.4rem;
-  }
-  .timeline-points li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  /* PROJECTS */
-  #projects { background: var(--bg2); }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-    display: flex;
-    flex-direction: column;
-  }
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-  .project-card:hover::before { transform: scaleX(1); }
-  .project-card:hover { border-color: #333; transform: translateY(-6px); }
-
-  .project-num {
-    font-family: var(--display);
-    font-size: 4rem;
-    line-height: 1;
-    color: var(--border);
-    position: absolute;
-    top: 1rem; right: 1.5rem;
-    transition: color 0.3s;
-  }
-  .project-card:hover .project-num { color: var(--bg2); }
-
-  .project-title {
-    font-family: var(--sans);
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-  }
-  .project-desc {
-    font-size: 0.76rem;
-    color: #888;
-    line-height: 1.8;
-    flex: 1;
-    margin-bottom: 1.5rem;
-  }
-
-  .tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .tag {
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    transition: all 0.2s;
-  }
-  .project-card:hover .tag {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .project-links {
-    display: flex;
-    gap: 1rem;
-  }
-  .project-link {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: color 0.2s;
-  }
-  .project-link:hover { color: var(--accent); }
-  .project-link svg { width: 14px; height: 14px; }
-
-  /* EDUCATION */
-  #education { background: var(--bg); }
-  .edu-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 3rem;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: start;
-    transition: border-color 0.3s;
-  }
-  .edu-card:hover { border-color: var(--accent); }
-  .edu-degree {
-    font-family: var(--sans);
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .edu-school { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
-  .edu-courses {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .edu-year {
-    font-family: var(--display);
-    font-size: 3rem;
-    color: var(--accent);
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  /* CONTACT */
-  #contact {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-  }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  .contact-left .section-heading { margin-bottom: 0.8rem; }
-  .contact-tagline {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 0.75rem;
-    text-decoration: none;
-    color: var(--text);
-    padding: 1rem 1.2rem;
-    border: 1px solid var(--border);
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-  .contact-link:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateX(4px);
-  }
-  .contact-link-icon {
-    width: 36px; height: 36px;
-    background: var(--bg3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .contact-link-icon svg { width: 16px; height: 16px; fill: currentColor; }
-
-  .contact-right {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .contact-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 2rem;
-  }
-  .contact-card-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-  .contact-card-content {
-    font-size: 0.8rem;
-    color: #aaa;
-    line-height: 1.8;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    position: relative;
-    z-index: 1;
-  }
-  footer a { color: var(--accent); text-decoration: none; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeLeft {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--accent); }
-
-  /* ─── HAMBURGER MENU ─── */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
-    cursor: none;
-    padding: 4px;
-    z-index: 200;
-  }
-  .hamburger span {
-    display: block;
-    height: 1.5px;
-    background: var(--text);
-    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-    transform-origin: center;
-  }
-  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-  /* Mobile nav drawer */
-  .mobile-nav {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(8,8,8,0.98);
-    backdrop-filter: blur(16px);
-    z-index: 150;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .mobile-nav.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .mobile-nav a {
-    font-family: var(--display);
-    font-size: 3rem;
-    letter-spacing: 0.08em;
-    color: var(--text);
-    text-decoration: none;
-    transition: color 0.2s;
-    position: relative;
-  }
-  .mobile-nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transition: transform 0.2s;
-  }
-  .mobile-nav a:hover { color: var(--accent); }
-  .mobile-nav a:hover::after { transform: scaleX(1); }
-
-  /* ─── TABLET (≤ 1024px) ─── */
-  @media (max-width: 1024px) {
-    #hero {
-      grid-template-columns: 1fr;
-      padding: 7rem 2.5rem 4rem;
-      gap: 3rem;
-      min-height: auto;
-    }
-    .hero-right { justify-content: flex-start; }
-    .terminal { max-width: 560px; }
-    .hero-name { font-size: clamp(4rem, 10vw, 7rem); }
-
-    .skills-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
-
-    .about-grid { gap: 3rem; }
-    .contact-grid { gap: 3rem; }
-
-    .section-inner { padding: 5rem 2.5rem; }
-
-    .status-bar { left: 2.5rem; }
-  }
-
-  /* ─── MOBILE (≤ 768px) ─── */
-  @media (max-width: 768px) {
-    body { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
-
-    /* Nav */
-    nav { padding: 1.2rem 1.5rem; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-    .mobile-nav { display: flex; }
-
-    /* Hero */
-    #hero {
-      grid-template-columns: 1fr;
-      padding: 5.5rem 1.5rem 3rem;
-      gap: 2.5rem;
-      min-height: 100svh;
-      overflow: hidden;
-    }
-    .hero-left { max-width: 100%; overflow: hidden; }
-    .hero-name { font-size: clamp(3.5rem, 14vw, 6rem); }
-    .hero-subtitle { font-size: 0.8rem; max-width: 100%; white-space: normal; overflow-wrap: break-word; }
-    .hero-tag { font-size: 0.6rem; letter-spacing: 0.12em; max-width: 100%; }
-    .hero-cta { flex-wrap: wrap; gap: 0.8rem; }
-    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-    .hero-right { justify-content: center; width: 100%; overflow: hidden; }
-    .terminal { max-width: 100%; width: 100%; overflow: hidden; }
-    .terminal-bar { overflow: hidden; }
-    .terminal-title { max-width: 120px; font-size: 0.6rem; }
-    .terminal-body { padding: 1rem; font-size: 0.68rem; line-height: 1.75; overflow: hidden; }
-    .out { padding-left: 0.6rem; font-size: 0.65rem; }
-    .status-bar { left: 1.5rem; bottom: 1.5rem; font-size: 0.6rem; }
-
-    /* Sections */
-    .section-inner { padding: 3.5rem 1.5rem; }
-    .section-heading { font-size: clamp(2rem, 9vw, 3.5rem); }
-    .section-label { margin-bottom: 2.5rem; }
-
-    /* About */
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .stat-card { padding: 1.2rem; }
-    .stat-num { font-size: 2.2rem; }
-
-    /* Skills */
-    .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .skill-group { padding: 1.5rem; }
-
-    /* Experience */
-    .timeline { padding-left: 1.2rem; }
-    .timeline-item { padding: 0 0 2rem 2rem; }
-    .timeline-role { font-size: 1.1rem; }
-
-    /* Projects */
-    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .project-card { padding: 1.8rem; }
-    .project-num { font-size: 3rem; }
-
-    /* Education */
-    .edu-card { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
-    .edu-year { font-size: 2rem; }
-    .edu-degree { font-size: 1.1rem; }
-
-    /* Contact */
-    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .contact-link { padding: 0.9rem 1rem; font-size: 0.7rem; }
-    .contact-card { padding: 1.5rem; }
-
-    /* Footer */
-    footer {
-      flex-direction: column;
-      gap: 0.8rem;
-      text-align: center;
-      padding: 1.5rem;
-    }
-  }
-
-  /* ─── SMALL MOBILE (≤ 380px) ─── */
-  @media (max-width: 380px) {
-    .hero-name { font-size: clamp(3rem, 16vw, 4rem); }
-    .hero-cta { gap: 0.6rem; }
-    .about-stats { grid-template-columns: 1fr; }
-    .section-inner { padding: 3rem 1.2rem; }
-    nav { padding: 1rem 1.2rem; }
-    .terminal-body { font-size: 0.66rem; }
-  }
-</style>
-</head>
-
-<body>
-
-<!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <div class="nav-logo">CP_</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE NAV DRAWER -->
-<div class="mobile-nav" id="mobileNav">
-  <a href="#about"      class="nav-drawer-link">About</a>
-  <a href="#skills"     class="nav-drawer-link">Skills</a>
-  <a href="#experience" class="nav-drawer-link">Experience</a>
-  <a href="#projects"   class="nav-drawer-link">Projects</a>
-  <a href="#contact"    class="nav-drawer-link">Contact</a>
-</div>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-accent-line"></div>
-
-  <div class="hero-left">
-    <div class="hero-tag">Available for opportunities</div>
-    <h1 class="hero-name">
-      CHAITANYA<br><span>POTTI</span>
-    </h1>
-    <p class="hero-subtitle">
-      Full-Stack Software Developer · Building scalable systems with Java, Spring Boot, React &amp; Python. From database design to polished UI.
-    </p>
-    <div class="hero-cta">
-      <a href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing" target="_blank" class="btn-primary">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        View Resume
-      </a>
-      <a href="#contact" class="btn-secondary">
-        Get In Touch
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chaitanya Potti — Software Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <div class="nav-logo">CP_</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#hero" class="nav-drawer-link">Home</a>
+      <a href="#about" class="nav-drawer-link">About</a>
+      <a href="#skills" class="nav-drawer-link">Skills</a>
+      <a href="#experience" class="nav-drawer-link">Experience</a>
+      <a href="#projects" class="nav-drawer-link">Projects</a>
+      <a href="#contact" class="nav-drawer-link">Contact</a>
     </div>
-  </div>
 
-  <div class="hero-right">
-    <div class="terminal">
-      <div class="terminal-bar">
-        <span class="dot dot-r"></span>
-        <span class="dot dot-y"></span>
-        <span class="dot dot-g"></span>
-        <span class="terminal-title">chaitanya@dev ~ bash</span>
-      </div>
-      <div class="terminal-body">
-        <div class="line"><span class="prompt">$</span><span class="cmd"> whoami</span></div>
-        <div class="line out green">chaitanya_potti</div>
-        <br>
-        <div class="line"><span class="prompt">$</span><span class="cmd"> cat skills.json</span></div>
-        <div class="line out">{</div>
-        <div class="line out">&nbsp;&nbsp;"backend":&nbsp;<span class="highlight">["Java","SpringBoot","FastAPI"]</span>,</div>
-        <div class="line out">&nbsp;&nbsp;"frontend":&nbsp;<span class="highlight">["React","Next.js","TS"]</span>,</div>
-        <div class="line out">&nbsp;&nbsp;"cloud":&nbsp;<span class="highlight">["AWS","GCP","Docker"]</span></div>
-        <div class="line out">}</div>
-        <br>
-        <div class="line"><span class="prompt">$</span><span class="cmd"> git log --oneline -3</span></div>
-        <div class="line out green">a3f2b1c AI News Mobile App</div>
-        <div class="line out green">7d8e9f0 URL Shortener Platform</div>
-        <div class="line out green">2c4a5b6 E-Commerce Full Stack</div>
-        <br>
-        <div class="line"><span class="prompt">$</span><span class="cmd"> <span class="blink">█</span></span></div>
-      </div>
-    </div>
-  </div>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-grid-bg"></div>
+      <div class="hero-accent-line"></div>
+      <div class="glow-point" aria-hidden="true"></div>
 
-  <div class="status-bar">
-    <span class="status-dot"></span>
-    Open to work · Chennai, India
-  </div>
-</section>
+      <div class="hero-left">
+        <div class="hero-tag stagger-left step-1">
+          <span class="hero-tag-dot" aria-hidden="true"></span>
+          <span>Available for opportunities</span>
+          <span class="hero-tag-time" id="heroLocalTime">--:--</span>
+        </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">01</span>
-      About Me
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <h2 class="section-heading">Building With<br><span style="color:var(--accent)">Purpose.</span></h2>
-        <p>I'm a <strong>self-taught full-stack developer</strong> who turned curiosity into craft. My journey started with a "Hello, World!" and grew into architecting scalable platforms used in production environments.</p>
-        <p>I specialize in bridging the gap between <strong>robust backend systems</strong> and <strong>seamless user interfaces</strong> — writing clean, maintainable code that solves real problems.</p>
-        <p>Currently pursuing my B.Tech in Computer Science at <strong>NSR Institute of Technology</strong> (2021–2025), while actively shipping projects and seeking full-stack opportunities.</p>
-      </div>
-      <div class="about-stats reveal" style="transition-delay:0.2s">
-        <div class="stat-card">
-          <div class="stat-num">4+</div>
-          <div class="stat-label">Projects Shipped</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">2</div>
-          <div class="stat-label">Internships Completed</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">10+</div>
-          <div class="stat-label">Technologies Mastered</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">3+</div>
-          <div class="stat-label">Cloud Platforms Used</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        <h1 class="hero-name stagger-left step-2">
+          <span class="hero-name-main">CHAITANYA<br /><span>POTTI</span></span>
+          <span class="hero-name-ghost" aria-hidden="true"
+            >CHAITANYA<br /><span>POTTI</span></span
+          >
+        </h1>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">02</span>
-      Tech Stack
-    </div>
-    <h2 class="section-heading reveal" style="margin-bottom:3rem">What I<br><span style="color:var(--accent)">Build With.</span></h2>
-    <div class="skills-grid">
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Backend</div>
-        <div class="skill-item"><div class="skill-name"><span>Java</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Spring Boot</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Python</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>FastAPI</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="78"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>REST APIs</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
-      </div>
-      <div class="skill-group reveal" style="transition-delay:0.15s">
-        <div class="skill-group-title">Frontend</div>
-        <div class="skill-item"><div class="skill-name"><span>React.js</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Next.js</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="78"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>TypeScript</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Tailwind CSS</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="82"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>React Native</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
-      </div>
-      <div class="skill-group reveal" style="transition-delay:0.3s">
-        <div class="skill-group-title">DevOps & DB</div>
-        <div class="skill-item"><div class="skill-name"><span>PostgreSQL</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>MongoDB</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Docker</span><span class="skill-pct">72%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="72"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>AWS</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
-        <div class="skill-item"><div class="skill-name"><span>Git</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">03</span>
-      Experience
-    </div>
-    <h2 class="section-heading reveal" style="margin-bottom:3rem">Where I've<br><span style="color:var(--accent)">Worked.</span></h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">June 2024 — October 2024</div>
-        <div class="timeline-role">Java Full-Stack Intern</div>
-        <div class="timeline-company">Demy Software Solutions Inc.</div>
-        <ul class="timeline-points">
-          <li>Developed scalable, responsive web interfaces using React.js in production</li>
-          <li>Architected RESTful APIs with Java, Spring Boot, and MySQL for resilient backend services</li>
-          <li>Collaborated in Agile sprints, contributing to end-to-end feature delivery</li>
-          <li>Integrated frontend and backend layers to ship cohesive, production-ready solutions</li>
-        </ul>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">June 2023 — July 2023</div>
-        <div class="timeline-role">DevOps Intern</div>
-        <div class="timeline-company">Demy Software Solutions Inc.</div>
-        <ul class="timeline-points">
-          <li>Maintained and monitored Linux server infrastructure</li>
-          <li>Authored shell scripts to automate routine operational tasks</li>
-          <li>Supported CI/CD pipelines deploying to AWS EC2 and S3</li>
-          <li>Worked with Git and Docker for containerized deployments</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">04</span>
-      Projects
-    </div>
-    <h2 class="section-heading reveal" style="margin-bottom:3rem">Things I've<br><span style="color:var(--accent)">Built.</span></h2>
-    <div class="projects-grid">
-
-      <div class="project-card reveal">
-        <div class="project-num">01</div>
-        <div class="project-title">AI-Powered News Mobile App</div>
-        <p class="project-desc">A cross-platform mobile application delivering AI-curated news with intelligent content summarization pipelines, workflow automation, and scalable cloud infrastructure.</p>
-        <div class="tech-tags">
-          <span class="tag">React Native</span>
-          <span class="tag">Spring Boot</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">AWS</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">n8n</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/chaitanya-699/ai-news-app" target="_blank" class="project-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-            GitHub
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="transition-delay:0.1s">
-        <div class="project-num">02</div>
-        <div class="project-title">AI News Web Platform</div>
-        <p class="project-desc">A web-based news dashboard combining Next.js SSR with a robust Spring Boot backend and FastAPI AI summarization. Deployed on Google Cloud with real-time filtering.</p>
-        <div class="tech-tags">
-          <span class="tag">Next.js</span>
-          <span class="tag">Spring Boot</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">GCP</span>
-        </div>
-        <div class="project-links">
-          <a href="https://newsflow-ai.vercel.app/" target="_blank" class="project-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="transition-delay:0.15s">
-        <div class="project-num">03</div>
-        <div class="project-title">Scalable URL Shortener</div>
-        <p class="project-desc">A high-throughput URL shortening service with custom generation algorithm, link expiration management, click analytics, and an intuitive React frontend.</p>
-        <div class="tech-tags">
-          <span class="tag">React.js</span>
-          <span class="tag">Spring Boot</span>
-          <span class="tag">MySQL</span>
-        </div>
-        <div class="project-links">
-          <a href="https://url-shortener-flax-eta.vercel.app/" target="_blank" class="project-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live Demo
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card reveal" style="transition-delay:0.2s">
-        <div class="project-num">04</div>
-        <div class="project-title">E-Commerce Platform</div>
-        <p class="project-desc">Full-stack B2C e-commerce with secure auth, product catalog, shopping cart, inventory tracking, order management, and a complete admin dashboard.</p>
-        <div class="tech-tags">
-          <span class="tag">Spring Boot</span>
-          <span class="tag">React</span>
-          <span class="tag">PostgreSQL</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/chaitanya-699/liquor-store-ecommerce" target="_blank" class="project-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-            GitHub
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">05</span>
-      Education
-    </div>
-    <h2 class="section-heading reveal" style="margin-bottom:3rem">Academic<br><span style="color:var(--accent)">Background.</span></h2>
-    <div class="edu-card reveal">
-      <div>
-        <div class="edu-degree">B.Tech in Computer Science &amp; Engineering</div>
-        <div class="edu-school">Nadimpalli Satyanarayana Raju Institute Of Technology</div>
-        <div class="edu-courses">
-          <span class="tag">Data Structures &amp; Algorithms</span>
-          <span class="tag">Distributed Databases</span>
-          <span class="tag">Software Engineering</span>
-          <span class="tag">Operating Systems</span>
-          <span class="tag">Web Development</span>
-          <span class="tag">Cloud Computing</span>
-        </div>
-      </div>
-      <div class="edu-year">2021<br>—<br>2025</div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-label">
-      <span class="section-num">06</span>
-      Contact
-    </div>
-    <div class="contact-grid">
-      <div class="contact-left reveal">
-        <h2 class="section-heading">Let's Build<br><span style="color:var(--accent)">Together.</span></h2>
-        <p class="contact-tagline">Open to full-stack roles, collaborations, and interesting projects. Drop me a line — I respond within 24 hours.</p>
-        <div class="contact-links">
-          <a href="mailto:chaitanyapotti0@gmail.com" class="contact-link">
-            <div class="contact-link-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            </div>
-            chaitanyapotti0@gmail.com
-          </a>
-          <a href="https://github.com/chaitanya-699" target="_blank" class="contact-link">
-            <div class="contact-link-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-            </div>
-            github.com/chaitanya-699
-          </a>
-          <a href="https://www.linkedin.com/in/chaitanya-p-566918348/" target="_blank" class="contact-link">
-            <div class="contact-link-icon">
-              <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </div>
-            linkedin.com/in/chaitanya-p-566918348
-          </a>
-        </div>
-      </div>
-      <div class="contact-right reveal" style="transition-delay:0.2s">
-        <div class="contact-card">
-          <div class="contact-card-title">Current Status</div>
-          <div class="contact-card-content">
-            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem">
-              <span class="status-dot"></span>
-              <strong style="color:var(--accent)">Actively Looking</strong>
-            </div>
-            Available for full-time roles, internships, and freelance collaborations. Based in India with openness to remote or relocation opportunities.
+        <div class="hero-subtitle-meta stagger-left step-3">
+          <div class="meta-line">
+            <span class="meta-key">Systems</span>
+            <span class="meta-value">Java · Spring Boot · FastAPI</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-key">Interfaces</span>
+            <span class="meta-value">React · Next.js · TypeScript</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-key">Cloud</span>
+            <span class="meta-value">AWS · GCP · Docker</span>
           </div>
         </div>
-        <div class="contact-card">
-          <div class="contact-card-title">Interests</div>
-          <div class="contact-card-content">
-            Microservices Architecture · Cloud-Native Development · Backend Optimization · System Design · AI/ML Integration in Applications
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-card-title">Quick Download</div>
-          <div class="contact-card-content" style="margin-bottom:1rem">Get a copy of my resume for offline viewing.</div>
-          <a href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing" target="_blank" class="btn-primary" style="display:inline-flex;font-size:0.7rem">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download Resume
+
+        <p class="hero-subtitle hero-intro stagger-left step-4">
+          Shipping high-performance web products from architecture to polished
+          UX.
+        </p>
+
+        <div class="hero-cta stagger-left step-5">
+          <a
+            href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
+            target="_blank"
+            class="btn-primary btn-cmd"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            ./view-resume
+          </a>
+          <a href="#contact" class="btn-secondary btn-cmd">
+            ./contact-me
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
           </a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <span>© 2026 Chaitanya Potti. Designed &amp; Built with precision.</span>
-  <span>
-    <a href="https://github.com/chaitanya-699" target="_blank">GitHub</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.linkedin.com/in/chaitanya-p-566918348/" target="_blank">LinkedIn</a>
-  </span>
-</footer>
+      <div class="hero-right">
+        <div class="card-wrapper" id="tilt-card">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+              <span class="terminal-title">chaitanya@dev ~ bash</span>
+            </div>
+            <div class="terminal-body">
+              <div class="line">
+                <span class="prompt">$</span><span class="cmd"> whoami</span>
+              </div>
+              <div class="line out green">chaitanya_potti</div>
+              <br />
+              <div class="line">
+                <span class="prompt">$</span
+                ><span class="cmd"> cat skills.json</span>
+              </div>
+              <div class="line out">{</div>
+              <div class="line out">
+                &nbsp;&nbsp;"backend":&nbsp;<span class="highlight"
+                  >["Java","SpringBoot","FastAPI"]</span
+                >,
+              </div>
+              <div class="line out">
+                &nbsp;&nbsp;"frontend":&nbsp;<span class="highlight"
+                  >["React","Next.js","TS"]</span
+                >,
+              </div>
+              <div class="line out">
+                &nbsp;&nbsp;"cloud":&nbsp;<span class="highlight"
+                  >["AWS","GCP","Docker"]</span
+                >
+              </div>
+              <div class="line out">}</div>
+              <br />
+              <div class="line">
+                <span class="prompt">$</span
+                ><span class="cmd"> git log --oneline -3</span>
+              </div>
+              <div class="line out green">a3f2b1c AI News Mobile App</div>
+              <div class="line out green">7d8e9f0 URL Shortener Platform</div>
+              <div class="line out green">2c4a5b6 E-Commerce Full Stack</div>
+              <br />
+              <div class="line">
+                <span class="prompt">$</span
+                ><span class="cmd"> <span class="blink">█</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-glow" aria-hidden="true"></div>
+        </div>
+      </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // CURSOR — hide on touch devices
-  const isTouchDevice = window.matchMedia('(hover: none)').matches;
-  if (isTouchDevice) {
-    document.getElementById('cursor').style.display = 'none';
-    document.getElementById('cursorRing').style.display = 'none';
-  }
+      <div class="status-bar">
+        <span class="status-dot"></span>
+        Open to work · Chennai, India
+      </div>
+    </section>
 
-  // CURSOR
-  const cursor = document.getElementById('cursor');
-  const cursorRing = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-  });
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    cursorRing.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform += ' scale(2)';
-      cursorRing.style.transform += ' scale(1.5)';
-    });
-    el.addEventListener('mouseleave', () => {});
-  });
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">01</span>
+          About Me
+        </div>
+        <div class="ide-container reveal">
+          <div class="ide-sidebar">
+            <div class="ide-sidebar-header">EXPLORER</div>
+            <div class="ide-file-tree">
+              <div class="ide-file" data-file="src">
+                <span class="icon" style="color: #dcbdfb">📁</span> src
+              </div>
+              <div class="ide-file indented" data-file="skills">
+                <span class="icon" style="color: #2f81f7">⚡</span> Skills.ts
+              </div>
+              <div class="ide-file indented" data-file="projects">
+                <span class="icon" style="color: #8b949e">🛠️</span> Projects.tsx
+              </div>
+              <div class="ide-file active" data-file="aboutme">
+                <span class="icon" style="color: #a5d6ff">📝</span> AboutMe.md
+              </div>
+              <div class="ide-file" data-file="stats">
+                <span class="icon" style="color: #ff7b72">🧠</span> stats.json
+              </div>
+              <div class="ide-file" data-file="readme">
+                <span class="icon" style="color: #dcbdfb">📖</span> README.md
+              </div>
+            </div>
+          </div>
+          <div class="ide-editor">
+            <div class="ide-tabs" id="ide-tabs">
+              <div class="ide-tab active" data-file="aboutme">
+                <span class="icon" style="color: #a5d6ff">📝</span> AboutMe.md
+              </div>
+            </div>
+            <div class="ide-content" id="ide-content-container">
+              <!-- AboutMe.md Content -->
+              <div class="file-content active" id="content-aboutme">
+                <h2 class="section-heading">
+                  Building With<br /><span style="color: var(--accent)"
+                    >Purpose.</span
+                  >
+                </h2>
+                <p>
+                  <span class="syn-comment"
+                    >&lt;!-- Self-taught dev turned architect --&gt;</span
+                  ><br /><br />
+                  <span class="syn-kw">const</span>
+                  <span class="syn-var">developer</span> = {<br />
+                  &nbsp;&nbsp;<span class="syn-tag">name</span>:
+                  <span class="syn-str">"Chaitanya Potti"</span>,<br />
+                  &nbsp;&nbsp;<span class="syn-tag">role</span>:
+                  <span class="syn-str">"Java Full-Stack Developer"</span
+                  >,<br />
+                  &nbsp;&nbsp;<span class="syn-tag">education</span>:
+                  <span class="syn-str"
+                    >"B.Tech in CSE @ NSRIT (2021–2025)"</span
+                  >,<br />
+                  };<br /><br />
 
-  // HAMBURGER MENU
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav  = document.getElementById('mobileNav');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    mobileNav.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.querySelectorAll('.nav-drawer-link').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-  // Close when tapping the backdrop (outside the links)
-  mobileNav.addEventListener('click', e => {
-    if (e.target === mobileNav) closeMenu();
-  });
-  // Close on Escape key
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMenu();
-  });
+                  <span class="syn-comment"
+                    >// I work on both backend and frontend to build complete
+                    applications.</span
+                  ><br />
+                  <span class="syn-comment"
+                    >// I like keeping code simple, clean, and useful.</span
+                  >
+                </p>
+              </div>
 
-  // NAV SCROLL
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
+              <!-- stats.json Content -->
+              <div
+                class="file-content"
+                id="content-stats"
+                style="display: none"
+              >
+                <p>
+                  <span class="syn-punct">{</span><br />
+                  &nbsp;&nbsp;<span class="syn-tag">"developer_stats"</span
+                  ><span class="syn-punct">: {</span><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
+                    >"projects_shipped"</span
+                  ><span class="syn-punct">:</span>
+                  <span class="syn-kw">"4+"</span
+                  ><span class="syn-punct">,</span><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
+                    >"internships"</span
+                  ><span class="syn-punct">:</span> <span class="syn-kw">2</span
+                  ><span class="syn-punct">,</span><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
+                    >"technologies"</span
+                  ><span class="syn-punct">:</span>
+                  <span class="syn-kw">"10+"</span
+                  ><span class="syn-punct">,</span><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
+                    >"cloud_platforms"</span
+                  ><span class="syn-punct">:</span>
+                  <span class="syn-kw">"3+"</span><br />
+                  &nbsp;&nbsp;<span class="syn-punct">}</span><br />
+                  <span class="syn-punct">}</span>
+                </p>
+                <div class="ide-stats">
+                  <div class="ide-stat-card">
+                    <div class="ide-stat-num">4+</div>
+                    <div class="ide-stat-label">Projects Shipped</div>
+                  </div>
+                  <div class="ide-stat-card">
+                    <div class="ide-stat-num">2</div>
+                    <div class="ide-stat-label">Internships Done</div>
+                  </div>
+                  <div class="ide-stat-card">
+                    <div class="ide-stat-num">10+</div>
+                    <div class="ide-stat-label">Tech Mastered</div>
+                  </div>
+                  <div class="ide-stat-card">
+                    <div class="ide-stat-num">3+</div>
+                    <div class="ide-stat-label">Cloud Platforms</div>
+                  </div>
+                </div>
+              </div>
 
-  // INTERSECTION OBSERVER
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Skill bars
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-      }
-    });
-  }, { threshold: 0.15 });
+              <!-- README.md Content -->
+              <div
+                class="file-content"
+                id="content-readme"
+                style="display: none"
+              >
+                <h2
+                  style="
+                    font-family: var(--display);
+                    font-size: 2rem;
+                    margin-bottom: 1rem;
+                  "
+                >
+                  <span style="color: var(--accent)">#</span> README
+                </h2>
+                <p>
+                  <span class="syn-comment"
+                    >Welcome to my interactive portfolio!</span
+                  ><br /><br />
+                  <span class="syn-var">Features:</span><br />
+                  - Kinetic 3D Hover UI<br />
+                  - Mock IDE Explorer<br />
+                  - Real-time time tracker<br />
+                  <br />
+                  <span class="syn-tag"
+                    >Try navigating through the sidebar to explore more!</span
+                  >
+                </p>
+              </div>
 
-  document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
+              <!-- Skills.ts Content -->
+              <div
+                class="file-content"
+                id="content-skills"
+                style="display: none"
+              >
+                <p>
+                  <span class="syn-kw">import</span> {
+                  <span class="syn-var">skills</span> }
+                  <span class="syn-kw">from</span>
+                  <span class="syn-str">'./data/skills'</span>;<br /><br />
+                  <span class="syn-comment">// The main tech stack</span><br />
+                  <span class="syn-kw">export const</span>
+                  <span class="syn-var">getSkills</span> = ()
+                  <span class="syn-tag">=></span> {<br />
+                  &nbsp;&nbsp;<span class="syn-kw">return</span> [<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-str">"React"</span>,
+                  <span class="syn-str">"Java"</span>,
+                  <span class="syn-str">"SpringBoot"</span>,
+                  <span class="syn-str">"MySQL"</span>
+                  <span class="syn-str">"AI"</span><br />
+                  &nbsp;&nbsp;];<br />
+                  };<br /><br />
+                  <span class="syn-comment"
+                    >// Scroll down to the Skills section for details!</span
+                  >
+                </p>
+                <div style="margin-top: 2rem">
+                  <a
+                    href="#skills"
+                    class="btn-primary"
+                    style="display: inline-flex"
+                    >View All Skills</a
+                  >
+                </div>
+              </div>
 
-  // Skill bars on section enter
-  const skillObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 200);
-        });
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.skill-group').forEach(el => skillObs.observe(el));
-</script>
-</body>
+              <!-- Projects.tsx Content -->
+              <div
+                class="file-content"
+                id="content-projects"
+                style="display: none"
+              >
+                <p>
+                  <span class="syn-kw">import</span>
+                  <span class="syn-var">React</span>
+                  <span class="syn-kw">from</span>
+                  <span class="syn-str">'react'</span>;<br /><br />
+                  <span class="syn-kw">export default function</span>
+                  <span class="syn-var">Projects</span>() {<br />
+                  &nbsp;&nbsp;<span class="syn-kw">return</span> (<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="syn-tag">div</span
+                  >&gt;<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="syn-tag"
+                    >h1</span
+                  >&gt;My Recent Work&lt;/<span class="syn-tag">h1</span
+                  >&gt;<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="syn-comment"
+                    >/* See Projects section below */</span
+                  >}<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="syn-tag">div</span
+                  >&gt;<br />
+                  &nbsp;&nbsp;);<br />
+                  }
+                </p>
+                <div style="margin-top: 2rem">
+                  <a
+                    href="#projects"
+                    class="btn-primary"
+                    style="display: inline-flex"
+                    >View Projects</a
+                  >
+                </div>
+              </div>
+
+              <!-- src directory Content -->
+              <div class="file-content" id="content-src" style="display: none">
+                <p>
+                  <span class="syn-comment">// Directory: /src</span><br />
+                  <span class="syn-comment"
+                    >// Click on the nested files to explore!</span
+                  ><br /><br />
+                  <span style="color: var(--muted)"
+                    >This folder contains the core source code files for this
+                    portfolio mock UI.</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">02</span>
+          Tech Stack
+        </div>
+        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
+          What I<br /><span style="color: var(--accent)">Build With.</span>
+        </h2>
+        <div class="skills-grid">
+          <div class="skill-group reveal">
+            <div class="skill-group-title">Backend</div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Java</span><span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Spring Boot</span><span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Python</span><span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>FastAPI</span><span class="skill-pct">78%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="78"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>REST APIs</span><span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="88"></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-group reveal" style="transition-delay: 0.15s">
+            <div class="skill-group-title">Frontend</div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>React.js</span><span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Next.js</span><span class="skill-pct">78%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="78"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>TypeScript</span><span class="skill-pct">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="75"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Tailwind CSS</span><span class="skill-pct">82%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="82"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>React Native</span><span class="skill-pct">70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="70"></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-group reveal" style="transition-delay: 0.3s">
+            <div class="skill-group-title">DevOps & DB</div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>PostgreSQL</span><span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>MongoDB</span><span class="skill-pct">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="75"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Docker</span><span class="skill-pct">72%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="72"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>AWS</span><span class="skill-pct">70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="70"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Git</span><span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-bar-fill" data-width="88"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">03</span>
+          Experience
+        </div>
+        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
+          Where I've<br /><span style="color: var(--accent)">Worked.</span>
+        </h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">June 2024 — October 2024</div>
+            <div class="timeline-role">Java Full-Stack Intern</div>
+            <div class="timeline-company">Demy Software Solutions Inc.</div>
+            <ul class="timeline-points">
+              <li>
+                Developed scalable, responsive web interfaces using React.js in
+                production
+              </li>
+              <li>
+                Architected RESTful APIs with Java, Spring Boot, and MySQL for
+                resilient backend services
+              </li>
+              <li>
+                Collaborated in Agile sprints, contributing to end-to-end
+                feature delivery
+              </li>
+              <li>
+                Integrated frontend and backend layers to ship cohesive,
+                production-ready solutions
+              </li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">June 2023 — July 2023</div>
+            <div class="timeline-role">DevOps Intern</div>
+            <div class="timeline-company">Demy Software Solutions Inc.</div>
+            <ul class="timeline-points">
+              <li>Maintained and monitored Linux server infrastructure</li>
+              <li>
+                Authored shell scripts to automate routine operational tasks
+              </li>
+              <li>Supported CI/CD pipelines deploying to AWS EC2 and S3</li>
+              <li>Worked with Git and Docker for containerized deployments</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">04</span>
+          Projects
+        </div>
+        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
+          Things I've<br /><span style="color: var(--accent)">Built.</span>
+        </h2>
+        <div class="projects-grid">
+          <div class="project-card reveal">
+            <div class="project-num">01</div>
+            <div class="project-title">Leetcode Clone</div>
+            <p class="project-desc">
+              A LeetCode-style platform where users can solve coding problems,
+              run code against test cases, and track their progress.
+            </p>
+            <div class="tech-tags">
+              <span class="tag">React.ts</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">AWS</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://github.com/chaitanya-699/code_room"
+                target="_blank"
+                class="project-link"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
+                  />
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-num">02</div>
+            <div class="project-title">AI-Powered News Mobile App</div>
+            <p class="project-desc">
+              A cross-platform mobile application delivering AI-curated news
+              with intelligent content summarization pipelines, workflow
+              automation, and scalable cloud infrastructure.
+            </p>
+            <div class="tech-tags">
+              <span class="tag">React Native</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">AWS</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">n8n</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://github.com/chaitanya-699/ai-news-app"
+                target="_blank"
+                class="project-link"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
+                  />
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+
+          <div class="project-card reveal" style="transition-delay: 0.1s">
+            <div class="project-num">03</div>
+            <div class="project-title">AI News Web Platform</div>
+            <p class="project-desc">
+              A web-based news dashboard combining Next.js SSR with a robust
+              Spring Boot backend and FastAPI AI summarization. Deployed on
+              Google Cloud with real-time filtering.
+            </p>
+            <div class="tech-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">GCP</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://newsflow-ai.vercel.app/"
+                target="_blank"
+                class="project-link"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"
+                  />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Demo
+              </a>
+            </div>
+          </div>
+
+          <div class="project-card reveal" style="transition-delay: 0.15s">
+            <div class="project-num">04</div>
+            <div class="project-title">Scalable URL Shortener</div>
+            <p class="project-desc">
+              A high-throughput URL shortening service with custom generation
+              algorithm, link expiration management, click analytics, and an
+              intuitive React frontend.
+            </p>
+            <div class="tech-tags">
+              <span class="tag">React.js</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">MySQL</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://url-shortener-flax-eta.vercel.app/"
+                target="_blank"
+                class="project-link"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"
+                  />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Demo
+              </a>
+            </div>
+          </div>
+
+          <div class="project-card reveal" style="transition-delay: 0.2s">
+            <div class="project-num">05</div>
+            <div class="project-title">E-Commerce Platform</div>
+            <p class="project-desc">
+              Full-stack B2C e-commerce with secure auth, product catalog,
+              shopping cart, inventory tracking, order management, and a
+              complete admin dashboard.
+            </p>
+            <div class="tech-tags">
+              <span class="tag">Spring Boot</span>
+              <span class="tag">React</span>
+              <span class="tag">PostgreSQL</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://github.com/chaitanya-699/liquor-store-ecommerce"
+                target="_blank"
+                class="project-link"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
+                  />
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">05</span>
+          Education
+        </div>
+        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
+          Academic<br /><span style="color: var(--accent)">Background.</span>
+        </h2>
+        <div class="edu-card reveal">
+          <div>
+            <div class="edu-degree">
+              B.Tech in Computer Science &amp; Engineering
+            </div>
+            <div class="edu-school">
+              Nadimpalli Satyanarayana Raju Institute Of Technology
+            </div>
+            <div class="edu-courses">
+              <span class="tag">Data Structures &amp; Algorithms</span>
+              <span class="tag">Distributed Databases</span>
+              <span class="tag">Software Engineering</span>
+              <span class="tag">Operating Systems</span>
+              <span class="tag">Web Development</span>
+              <span class="tag">Cloud Computing</span>
+            </div>
+          </div>
+          <div class="edu-year">2021<br />—<br />2025</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-inner">
+        <div class="section-label">
+          <span class="section-num">06</span>
+          Contact
+        </div>
+        <div class="contact-grid">
+          <div class="contact-left reveal">
+            <h2 class="section-heading">
+              Let's Build<br /><span style="color: var(--accent)"
+                >Together.</span
+              >
+            </h2>
+            <p class="contact-tagline">
+              Open to full-stack roles, collaborations, and interesting
+              projects. Drop me a line — I respond within 24 hours.
+            </p>
+            <div class="contact-links">
+              <a href="mailto:chaitanyapotti0@gmail.com" class="contact-link">
+                <div class="contact-link-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                    />
+                  </svg>
+                </div>
+                chaitanyapotti0@gmail.com
+              </a>
+              <a
+                href="https://github.com/chaitanya-699"
+                target="_blank"
+                class="contact-link"
+              >
+                <div class="contact-link-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
+                    />
+                  </svg>
+                </div>
+                github.com/chaitanya-699
+              </a>
+              <a
+                href="https://www.linkedin.com/in/chaitanya-p-566918348/"
+                target="_blank"
+                class="contact-link"
+              >
+                <div class="contact-link-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                </div>
+                linkedin.com/in/chaitanya-p-566918348
+              </a>
+            </div>
+          </div>
+          <div class="contact-right reveal" style="transition-delay: 0.2s">
+            <div class="contact-card">
+              <div class="contact-card-title">Current Status</div>
+              <div class="contact-card-content">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  <span class="status-dot"></span>
+                  <strong style="color: var(--accent)">Actively Looking</strong>
+                </div>
+                Available for full-time roles, internships, and freelance
+                collaborations. Based in India with openness to remote or
+                relocation opportunities.
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-title">Interests</div>
+              <div class="contact-card-content">
+                Microservices Architecture · Cloud-Native Development · Backend
+                Optimization · System Design · AI/ML Integration in Applications
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-title">Quick Download</div>
+              <div class="contact-card-content" style="margin-bottom: 1rem">
+                Get a copy of my resume for offline viewing.
+              </div>
+              <a
+                href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
+                target="_blank"
+                class="btn-primary"
+                style="display: inline-flex; font-size: 0.7rem"
+              >
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download Resume
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>© 2026 Chaitanya Potti. Designed &amp; Built with precision.</span>
+      <span>
+        <a href="https://github.com/chaitanya-699" target="_blank">GitHub</a>
+        &nbsp;·&nbsp;
+        <a
+          href="https://www.linkedin.com/in/chaitanya-p-566918348/"
+          target="_blank"
+          >LinkedIn</a
+        >
+      </span>
+    </footer>
+
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
+    <script src="script.js"></script>
+  </body>
 </html>
