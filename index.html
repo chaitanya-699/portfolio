@@ -3,973 +3,542 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chaitanya Potti — Software Developer</title>
+    <title>Chaitanya Potti — Full-Stack Developer</title>
+    <meta
+      name="description"
+      content="Chaitanya Potti — Java Full-Stack Developer building scalable web applications with React, Spring Boot, and cloud-native architecture."
+    />
+    <meta property="og:title" content="Chaitanya Potti — Full-Stack Developer" />
+    <meta
+      property="og:description"
+      content="Full-stack developer specializing in Java, React, and cloud systems. Open to opportunities."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>CP</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- CURSOR -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-    <!-- NAV -->
+    <div class="grain" aria-hidden="true"></div>
+
     <nav id="navbar">
-      <div class="nav-logo">CP_</div>
+      <a href="#hero" class="nav-logo">CP<span>.</span></a>
       <ul class="nav-links">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about" data-section="about">About</a></li>
+        <li><a href="#skills" data-section="skills">Skills</a></li>
+        <li><a href="#experience" data-section="experience">Experience</a></li>
+        <li><a href="#projects" data-section="projects">Projects</a></li>
+        <li><a href="#contact" data-section="contact">Contact</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <a
+        href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-resume"
+      >
+        Resume
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </nav>
 
-    <!-- MOBILE NAV DRAWER -->
-    <div class="mobile-nav" id="mobileNav">
-      <a href="#hero" class="nav-drawer-link">Home</a>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
       <a href="#about" class="nav-drawer-link">About</a>
       <a href="#skills" class="nav-drawer-link">Skills</a>
       <a href="#experience" class="nav-drawer-link">Experience</a>
       <a href="#projects" class="nav-drawer-link">Projects</a>
       <a href="#contact" class="nav-drawer-link">Contact</a>
+      <a
+        href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-drawer-resume"
+      >
+        Download Resume
+      </a>
     </div>
 
-    <!-- HERO -->
-    <section id="hero">
-      <div class="hero-grid-bg"></div>
-      <div class="hero-accent-line"></div>
-      <div class="glow-point" aria-hidden="true"></div>
-
-      <div class="hero-left">
-        <div class="hero-tag stagger-left step-1">
-          <span class="hero-tag-dot" aria-hidden="true"></span>
-          <span>Available for opportunities</span>
-          <span class="hero-tag-time" id="heroLocalTime">--:--</span>
+    <main>
+      <!-- HERO -->
+      <section id="hero">
+        <div class="hero-bg">
+          <div class="hero-orb hero-orb-1"></div>
+          <div class="hero-orb hero-orb-2"></div>
+          <div class="hero-grid"></div>
         </div>
 
-        <h1 class="hero-name stagger-left step-2">
-          <span class="hero-name-main">CHAITANYA<br /><span>POTTI</span></span>
-          <span class="hero-name-ghost" aria-hidden="true"
-            >CHAITANYA<br /><span>POTTI</span></span
-          >
-        </h1>
+        <div class="hero-content">
+          <div class="hero-left">
+            <div class="hero-badge reveal">
+              <span class="pulse-dot"></span>
+              Open to work
+              <span class="hero-time" id="heroLocalTime">--:-- IST</span>
+            </div>
 
-        <div class="hero-subtitle-meta stagger-left step-3">
-          <div class="meta-line">
-            <span class="meta-key">Systems</span>
-            <span class="meta-value">Java · Spring Boot · FastAPI</span>
+            <h1 class="hero-title reveal">
+              Chaitanya<br />
+              <span class="hero-title-accent">Potti</span>
+            </h1>
+
+            <p class="hero-role reveal">
+              <span class="role-prefix">I'm a </span>
+              <span class="role-rotator" id="roleRotator">Full-Stack Developer</span>
+            </p>
+
+            <p class="hero-desc reveal">
+              I design and ship end-to-end web products — from resilient Spring Boot APIs
+              and cloud infrastructure to polished React interfaces that users love.
+            </p>
+
+            <div class="hero-stats reveal">
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-count="5">0</span>
+                <span class="hero-stat-label">Projects</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-count="2">0</span>
+                <span class="hero-stat-label">Internships</span>
+              </div>
+              <div class="hero-stat-divider"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-count="10">0</span>
+                <span class="hero-stat-label">Technologies</span>
+              </div>
+            </div>
+
+            <div class="hero-cta reveal">
+              <a href="#projects" class="btn btn-primary">
+                View My Work
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+              <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+            </div>
           </div>
-          <div class="meta-line">
-            <span class="meta-key">Interfaces</span>
-            <span class="meta-value">React · Next.js · TypeScript</span>
-          </div>
-          <div class="meta-line">
-            <span class="meta-key">Cloud</span>
-            <span class="meta-value">AWS · GCP · Docker</span>
+
+          <div class="hero-right reveal">
+            <div class="terminal-wrap" id="tilt-card">
+              <div class="terminal">
+                <div class="terminal-header">
+                  <span class="t-dot t-red"></span>
+                  <span class="t-dot t-yellow"></span>
+                  <span class="t-dot t-green"></span>
+                  <span class="terminal-label">chaitanya@portfolio ~ zsh</span>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                  <div class="t-line"><span class="t-prompt">$</span> whoami</div>
+                  <div class="t-line t-output">chaitanya_potti</div>
+                  <div class="t-line"><span class="t-prompt">$</span> cat role.txt</div>
+                  <div class="t-line t-output t-accent">Java Full-Stack Developer</div>
+                  <div class="t-line"><span class="t-prompt">$</span> ls projects/</div>
+                  <div class="t-line t-output">leetcode-clone  ai-news-app  url-shortener</div>
+                  <div class="t-line"><span class="t-prompt">$</span> <span id="typedLine"></span><span class="t-cursor">▊</span></div>
+                </div>
+              </div>
+              <div class="terminal-glow" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
 
-        <p class="hero-subtitle hero-intro stagger-left step-4">
-          Shipping high-performance web products from architecture to polished
-          UX.
-        </p>
+        <a href="#about" class="scroll-hint" aria-label="Scroll to about">
+          <span>Scroll</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </a>
+      </section>
 
-        <div class="hero-cta stagger-left step-5">
-          <a
-            href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
-            target="_blank"
-            class="btn-primary btn-cmd"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            ./view-resume
-          </a>
-          <a href="#contact" class="btn-secondary btn-cmd">
-            ./contact-me
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </a>
+      <!-- TECH MARQUEE -->
+      <div class="marquee-section" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Java</span><span>Spring Boot</span><span>React</span><span>Next.js</span>
+          <span>TypeScript</span><span>FastAPI</span><span>PostgreSQL</span><span>MongoDB</span>
+          <span>AWS</span><span>GCP</span><span>Docker</span><span>React Native</span>
+          <span>Java</span><span>Spring Boot</span><span>React</span><span>Next.js</span>
+          <span>TypeScript</span><span>FastAPI</span><span>PostgreSQL</span><span>MongoDB</span>
+          <span>AWS</span><span>GCP</span><span>Docker</span><span>React Native</span>
         </div>
       </div>
 
-      <div class="hero-right">
-        <div class="card-wrapper" id="tilt-card">
-          <div class="terminal">
-            <div class="terminal-bar">
-              <span class="dot dot-r"></span>
-              <span class="dot dot-y"></span>
-              <span class="dot dot-g"></span>
-              <span class="terminal-title">chaitanya@dev ~ bash</span>
-            </div>
-            <div class="terminal-body">
-              <div class="line">
-                <span class="prompt">$</span><span class="cmd"> whoami</span>
-              </div>
-              <div class="line out green">chaitanya_potti</div>
-              <br />
-              <div class="line">
-                <span class="prompt">$</span
-                ><span class="cmd"> cat skills.json</span>
-              </div>
-              <div class="line out">{</div>
-              <div class="line out">
-                &nbsp;&nbsp;"backend":&nbsp;<span class="highlight"
-                  >["Java","SpringBoot","FastAPI"]</span
-                >,
-              </div>
-              <div class="line out">
-                &nbsp;&nbsp;"frontend":&nbsp;<span class="highlight"
-                  >["React","Next.js","TS"]</span
-                >,
-              </div>
-              <div class="line out">
-                &nbsp;&nbsp;"cloud":&nbsp;<span class="highlight"
-                  >["AWS","GCP","Docker"]</span
-                >
-              </div>
-              <div class="line out">}</div>
-              <br />
-              <div class="line">
-                <span class="prompt">$</span
-                ><span class="cmd"> git log --oneline -3</span>
-              </div>
-              <div class="line out green">a3f2b1c AI News Mobile App</div>
-              <div class="line out green">7d8e9f0 URL Shortener Platform</div>
-              <div class="line out green">2c4a5b6 E-Commerce Full Stack</div>
-              <br />
-              <div class="line">
-                <span class="prompt">$</span
-                ><span class="cmd"> <span class="blink">█</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="card-glow" aria-hidden="true"></div>
-        </div>
-      </div>
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="container">
+          <header class="section-header reveal">
+            <span class="section-tag">01 — About</span>
+            <h2 class="section-title">Building software<br /><em>with intent.</em></h2>
+          </header>
 
-      <div class="status-bar">
-        <span class="status-dot"></span>
-        Open to work · Chennai, India
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">01</span>
-          About Me
-        </div>
-        <div class="ide-container reveal">
-          <div class="ide-sidebar">
-            <div class="ide-sidebar-header">EXPLORER</div>
-            <div class="ide-file-tree">
-              <div class="ide-file" data-file="src">
-                <span class="icon" style="color: #dcbdfb">📁</span> src
-              </div>
-              <div class="ide-file indented" data-file="skills">
-                <span class="icon" style="color: #2f81f7">⚡</span> Skills.ts
-              </div>
-              <div class="ide-file indented" data-file="projects">
-                <span class="icon" style="color: #8b949e">🛠️</span> Projects.tsx
-              </div>
-              <div class="ide-file active" data-file="aboutme">
-                <span class="icon" style="color: #a5d6ff">📝</span> AboutMe.md
-              </div>
-              <div class="ide-file" data-file="stats">
-                <span class="icon" style="color: #ff7b72">🧠</span> stats.json
-              </div>
-              <div class="ide-file" data-file="readme">
-                <span class="icon" style="color: #dcbdfb">📖</span> README.md
-              </div>
-            </div>
-          </div>
-          <div class="ide-editor">
-            <div class="ide-tabs" id="ide-tabs">
-              <div class="ide-tab active" data-file="aboutme">
-                <span class="icon" style="color: #a5d6ff">📝</span> AboutMe.md
-              </div>
-            </div>
-            <div class="ide-content" id="ide-content-container">
-              <!-- AboutMe.md Content -->
-              <div class="file-content active" id="content-aboutme">
-                <h2 class="section-heading">
-                  Building With<br /><span style="color: var(--accent)"
-                    >Purpose.</span
-                  >
-                </h2>
-                <p>
-                  <span class="syn-comment"
-                    >&lt;!-- Self-taught dev turned architect --&gt;</span
-                  ><br /><br />
-                  <span class="syn-kw">const</span>
-                  <span class="syn-var">developer</span> = {<br />
-                  &nbsp;&nbsp;<span class="syn-tag">name</span>:
-                  <span class="syn-str">"Chaitanya Potti"</span>,<br />
-                  &nbsp;&nbsp;<span class="syn-tag">role</span>:
-                  <span class="syn-str">"Java Full-Stack Developer"</span
-                  >,<br />
-                  &nbsp;&nbsp;<span class="syn-tag">education</span>:
-                  <span class="syn-str"
-                    >"B.Tech in CSE @ NSRIT (2021–2025)"</span
-                  >,<br />
-                  };<br /><br />
-
-                  <span class="syn-comment"
-                    >// I work on both backend and frontend to build complete
-                    applications.</span
-                  ><br />
-                  <span class="syn-comment"
-                    >// I like keeping code simple, clean, and useful.</span
-                  >
-                </p>
-              </div>
-
-              <!-- stats.json Content -->
-              <div
-                class="file-content"
-                id="content-stats"
-                style="display: none"
-              >
-                <p>
-                  <span class="syn-punct">{</span><br />
-                  &nbsp;&nbsp;<span class="syn-tag">"developer_stats"</span
-                  ><span class="syn-punct">: {</span><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
-                    >"projects_shipped"</span
-                  ><span class="syn-punct">:</span>
-                  <span class="syn-kw">"4+"</span
-                  ><span class="syn-punct">,</span><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
-                    >"internships"</span
-                  ><span class="syn-punct">:</span> <span class="syn-kw">2</span
-                  ><span class="syn-punct">,</span><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
-                    >"technologies"</span
-                  ><span class="syn-punct">:</span>
-                  <span class="syn-kw">"10+"</span
-                  ><span class="syn-punct">,</span><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-tag"
-                    >"cloud_platforms"</span
-                  ><span class="syn-punct">:</span>
-                  <span class="syn-kw">"3+"</span><br />
-                  &nbsp;&nbsp;<span class="syn-punct">}</span><br />
-                  <span class="syn-punct">}</span>
-                </p>
-                <div class="ide-stats">
-                  <div class="ide-stat-card">
-                    <div class="ide-stat-num">4+</div>
-                    <div class="ide-stat-label">Projects Shipped</div>
+          <div class="about-grid">
+            <div class="about-text reveal">
+              <p>
+                I'm a <strong>Computer Science graduate</strong> from NSRIT with a passion for
+                building complete, production-ready applications. I work across the full stack —
+                architecting REST APIs with Java &amp; Spring Boot, crafting responsive UIs with
+                React &amp; Next.js, and deploying on AWS &amp; GCP.
+              </p>
+              <p>
+                During my internships at <strong>Demy Software Solutions</strong>, I shipped
+                features in Agile sprints, built scalable backend services, and automated
+                DevOps pipelines. I believe in clean code, thoughtful UX, and systems that
+                scale.
+              </p>
+              <div class="about-highlights">
+                <div class="highlight-item">
+                  <span class="highlight-icon">⚡</span>
+                  <div>
+                    <strong>Full-Stack Focus</strong>
+                    <span>Backend to frontend, end to end</span>
                   </div>
-                  <div class="ide-stat-card">
-                    <div class="ide-stat-num">2</div>
-                    <div class="ide-stat-label">Internships Done</div>
+                </div>
+                <div class="highlight-item">
+                  <span class="highlight-icon">☁️</span>
+                  <div>
+                    <strong>Cloud-Native</strong>
+                    <span>AWS, GCP, Docker deployments</span>
                   </div>
-                  <div class="ide-stat-card">
-                    <div class="ide-stat-num">10+</div>
-                    <div class="ide-stat-label">Tech Mastered</div>
-                  </div>
-                  <div class="ide-stat-card">
-                    <div class="ide-stat-num">3+</div>
-                    <div class="ide-stat-label">Cloud Platforms</div>
+                </div>
+                <div class="highlight-item">
+                  <span class="highlight-icon">🎯</span>
+                  <div>
+                    <strong>Problem Solver</strong>
+                    <span>DSA, system design, clean architecture</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- README.md Content -->
-              <div
-                class="file-content"
-                id="content-readme"
-                style="display: none"
-              >
-                <h2
-                  style="
-                    font-family: var(--display);
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                  "
-                >
-                  <span style="color: var(--accent)">#</span> README
-                </h2>
-                <p>
-                  <span class="syn-comment"
-                    >Welcome to my interactive portfolio!</span
-                  ><br /><br />
-                  <span class="syn-var">Features:</span><br />
-                  - Kinetic 3D Hover UI<br />
-                  - Mock IDE Explorer<br />
-                  - Real-time time tracker<br />
-                  <br />
-                  <span class="syn-tag"
-                    >Try navigating through the sidebar to explore more!</span
-                  >
+            <div class="about-code reveal">
+              <div class="code-window">
+                <div class="code-header">
+                  <span class="t-dot t-red"></span>
+                  <span class="t-dot t-yellow"></span>
+                  <span class="t-dot t-green"></span>
+                  <span class="code-filename">developer.ts</span>
+                </div>
+                <pre class="code-body"><code><span class="c-kw">interface</span> <span class="c-type">Developer</span> {
+  <span class="c-prop">name</span>: <span class="c-str">"Chaitanya Potti"</span>;
+  <span class="c-prop">role</span>: <span class="c-str">"Full-Stack Developer"</span>;
+  <span class="c-prop">location</span>: <span class="c-str">"Chennai, India"</span>;
+  <span class="c-prop">education</span>: <span class="c-str">"B.Tech CSE @ NSRIT"</span>;
+  <span class="c-prop">available</span>: <span class="c-bool">true</span>;
+  <span class="c-prop">stack</span>: [
+    <span class="c-str">"Java"</span>, <span class="c-str">"Spring Boot"</span>,
+    <span class="c-str">"React"</span>, <span class="c-str">"TypeScript"</span>
+  ];
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills">
+        <div class="container">
+          <header class="section-header reveal">
+            <span class="section-tag">02 — Skills</span>
+            <h2 class="section-title">Tools I work<br /><em>with daily.</em></h2>
+          </header>
+
+          <div class="skills-bento">
+            <div class="skill-card skill-card-lg reveal">
+              <div class="skill-card-header">
+                <span class="skill-icon">⚙️</span>
+                <h3>Backend</h3>
+              </div>
+              <div class="skill-chips">
+                <span class="chip">Java</span>
+                <span class="chip">Spring Boot</span>
+                <span class="chip">Python</span>
+                <span class="chip">FastAPI</span>
+                <span class="chip">REST APIs</span>
+                <span class="chip">MySQL</span>
+              </div>
+            </div>
+            <div class="skill-card reveal">
+              <div class="skill-card-header">
+                <span class="skill-icon">🎨</span>
+                <h3>Frontend</h3>
+              </div>
+              <div class="skill-chips">
+                <span class="chip">React.js</span>
+                <span class="chip">Next.js</span>
+                <span class="chip">TypeScript</span>
+                <span class="chip">Tailwind CSS</span>
+                <span class="chip">React Native</span>
+              </div>
+            </div>
+            <div class="skill-card reveal">
+              <div class="skill-card-header">
+                <span class="skill-icon">🗄️</span>
+                <h3>Data &amp; DevOps</h3>
+              </div>
+              <div class="skill-chips">
+                <span class="chip">PostgreSQL</span>
+                <span class="chip">MongoDB</span>
+                <span class="chip">Docker</span>
+                <span class="chip">AWS</span>
+                <span class="chip">GCP</span>
+                <span class="chip">Git</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience">
+        <div class="container">
+          <header class="section-header reveal">
+            <span class="section-tag">03 — Experience</span>
+            <h2 class="section-title">Where I've<br /><em>contributed.</em></h2>
+          </header>
+
+          <div class="timeline">
+            <article class="timeline-card reveal">
+              <div class="timeline-meta">
+                <time>Jun 2024 — Oct 2024</time>
+                <span class="timeline-badge">Internship</span>
+              </div>
+              <h3 class="timeline-title">Java Full-Stack Intern</h3>
+              <p class="timeline-company">Demy Software Solutions Inc.</p>
+              <ul class="timeline-list">
+                <li>Built scalable, responsive web interfaces using React.js in production</li>
+                <li>Architected RESTful APIs with Java, Spring Boot, and MySQL</li>
+                <li>Collaborated in Agile sprints for end-to-end feature delivery</li>
+                <li>Integrated frontend and backend layers for production-ready solutions</li>
+              </ul>
+            </article>
+
+            <article class="timeline-card reveal">
+              <div class="timeline-meta">
+                <time>Jun 2023 — Jul 2023</time>
+                <span class="timeline-badge">Internship</span>
+              </div>
+              <h3 class="timeline-title">DevOps Intern</h3>
+              <p class="timeline-company">Demy Software Solutions Inc.</p>
+              <ul class="timeline-list">
+                <li>Maintained and monitored Linux server infrastructure</li>
+                <li>Authored shell scripts to automate routine operational tasks</li>
+                <li>Supported CI/CD pipelines deploying to AWS EC2 and S3</li>
+                <li>Worked with Git and Docker for containerized deployments</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="container">
+          <header class="section-header reveal">
+            <span class="section-tag">04 — Projects</span>
+            <h2 class="section-title">Selected<br /><em>work.</em></h2>
+          </header>
+
+          <div class="project-filters reveal">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+            <button class="filter-btn" data-filter="mobile">Mobile</button>
+            <button class="filter-btn" data-filter="backend">Backend</button>
+          </div>
+
+          <div class="projects-bento">
+            <!-- Featured -->
+            <article class="project-card project-featured reveal" data-category="fullstack">
+              <div class="project-card-inner">
+                <span class="project-label">Featured</span>
+                <h3 class="project-name">Leetcode Clone</h3>
+                <p class="project-desc">
+                  A full-featured coding platform where users solve problems, run code against
+                  test cases, and track progress — built with a React TypeScript frontend and
+                  Spring Boot backend on AWS.
                 </p>
-              </div>
-
-              <!-- Skills.ts Content -->
-              <div
-                class="file-content"
-                id="content-skills"
-                style="display: none"
-              >
-                <p>
-                  <span class="syn-kw">import</span> {
-                  <span class="syn-var">skills</span> }
-                  <span class="syn-kw">from</span>
-                  <span class="syn-str">'./data/skills'</span>;<br /><br />
-                  <span class="syn-comment">// The main tech stack</span><br />
-                  <span class="syn-kw">export const</span>
-                  <span class="syn-var">getSkills</span> = ()
-                  <span class="syn-tag">=></span> {<br />
-                  &nbsp;&nbsp;<span class="syn-kw">return</span> [<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="syn-str">"React"</span>,
-                  <span class="syn-str">"Java"</span>,
-                  <span class="syn-str">"SpringBoot"</span>,
-                  <span class="syn-str">"MySQL"</span>
-                  <span class="syn-str">"AI"</span><br />
-                  &nbsp;&nbsp;];<br />
-                  };<br /><br />
-                  <span class="syn-comment"
-                    >// Scroll down to the Skills section for details!</span
-                  >
-                </p>
-                <div style="margin-top: 2rem">
-                  <a
-                    href="#skills"
-                    class="btn-primary"
-                    style="display: inline-flex"
-                    >View All Skills</a
-                  >
+                <div class="project-tags">
+                  <span>React.ts</span><span>Spring Boot</span><span>PostgreSQL</span><span>AWS</span>
+                </div>
+                <div class="project-actions">
+                  <a href="https://github.com/chaitanya-699/code_room" target="_blank" rel="noopener noreferrer" class="project-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                    GitHub
+                  </a>
                 </div>
               </div>
-
-              <!-- Projects.tsx Content -->
-              <div
-                class="file-content"
-                id="content-projects"
-                style="display: none"
-              >
-                <p>
-                  <span class="syn-kw">import</span>
-                  <span class="syn-var">React</span>
-                  <span class="syn-kw">from</span>
-                  <span class="syn-str">'react'</span>;<br /><br />
-                  <span class="syn-kw">export default function</span>
-                  <span class="syn-var">Projects</span>() {<br />
-                  &nbsp;&nbsp;<span class="syn-kw">return</span> (<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="syn-tag">div</span
-                  >&gt;<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="syn-tag"
-                    >h1</span
-                  >&gt;My Recent Work&lt;/<span class="syn-tag">h1</span
-                  >&gt;<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="syn-comment"
-                    >/* See Projects section below */</span
-                  >}<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="syn-tag">div</span
-                  >&gt;<br />
-                  &nbsp;&nbsp;);<br />
-                  }
-                </p>
-                <div style="margin-top: 2rem">
-                  <a
-                    href="#projects"
-                    class="btn-primary"
-                    style="display: inline-flex"
-                    >View Projects</a
-                  >
+              <div class="project-visual project-visual-1" aria-hidden="true">
+                <div class="visual-code">
+                  <span class="vc-line"><span class="vc-kw">function</span> solve() {</span>
+                  <span class="vc-line">&nbsp;&nbsp;<span class="vc-kw">return</span> <span class="vc-str">"accepted"</span>;</span>
+                  <span class="vc-line">}</span>
                 </div>
               </div>
+            </article>
 
-              <!-- src directory Content -->
-              <div class="file-content" id="content-src" style="display: none">
-                <p>
-                  <span class="syn-comment">// Directory: /src</span><br />
-                  <span class="syn-comment"
-                    >// Click on the nested files to explore!</span
-                  ><br /><br />
-                  <span style="color: var(--muted)"
-                    >This folder contains the core source code files for this
-                    portfolio mock UI.</span
-                  >
-                </p>
+            <article class="project-card reveal" data-category="mobile">
+              <span class="project-num">02</span>
+              <h3 class="project-name">AI-Powered News App</h3>
+              <p class="project-desc">
+                Cross-platform mobile app with AI-curated news, content summarization, and
+                cloud infrastructure.
+              </p>
+              <div class="project-tags">
+                <span>React Native</span><span>Spring Boot</span><span>FastAPI</span><span>AWS</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">02</span>
-          Tech Stack
-        </div>
-        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
-          What I<br /><span style="color: var(--accent)">Build With.</span>
-        </h2>
-        <div class="skills-grid">
-          <div class="skill-group reveal">
-            <div class="skill-group-title">Backend</div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Java</span><span class="skill-pct">90%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="90"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Spring Boot</span><span class="skill-pct">85%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="85"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Python</span><span class="skill-pct">80%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="80"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>FastAPI</span><span class="skill-pct">78%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="78"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>REST APIs</span><span class="skill-pct">88%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="88"></div>
-              </div>
-            </div>
-          </div>
-          <div class="skill-group reveal" style="transition-delay: 0.15s">
-            <div class="skill-group-title">Frontend</div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>React.js</span><span class="skill-pct">85%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="85"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Next.js</span><span class="skill-pct">78%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="78"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>TypeScript</span><span class="skill-pct">75%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="75"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Tailwind CSS</span><span class="skill-pct">82%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="82"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>React Native</span><span class="skill-pct">70%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="70"></div>
-              </div>
-            </div>
-          </div>
-          <div class="skill-group reveal" style="transition-delay: 0.3s">
-            <div class="skill-group-title">DevOps & DB</div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>PostgreSQL</span><span class="skill-pct">80%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="80"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>MongoDB</span><span class="skill-pct">75%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="75"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Docker</span><span class="skill-pct">72%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="72"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>AWS</span><span class="skill-pct">70%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="70"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-name">
-                <span>Git</span><span class="skill-pct">88%</span>
-              </div>
-              <div class="skill-bar">
-                <div class="skill-bar-fill" data-width="88"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section id="experience">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">03</span>
-          Experience
-        </div>
-        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
-          Where I've<br /><span style="color: var(--accent)">Worked.</span>
-        </h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">June 2024 — October 2024</div>
-            <div class="timeline-role">Java Full-Stack Intern</div>
-            <div class="timeline-company">Demy Software Solutions Inc.</div>
-            <ul class="timeline-points">
-              <li>
-                Developed scalable, responsive web interfaces using React.js in
-                production
-              </li>
-              <li>
-                Architected RESTful APIs with Java, Spring Boot, and MySQL for
-                resilient backend services
-              </li>
-              <li>
-                Collaborated in Agile sprints, contributing to end-to-end
-                feature delivery
-              </li>
-              <li>
-                Integrated frontend and backend layers to ship cohesive,
-                production-ready solutions
-              </li>
-            </ul>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">June 2023 — July 2023</div>
-            <div class="timeline-role">DevOps Intern</div>
-            <div class="timeline-company">Demy Software Solutions Inc.</div>
-            <ul class="timeline-points">
-              <li>Maintained and monitored Linux server infrastructure</li>
-              <li>
-                Authored shell scripts to automate routine operational tasks
-              </li>
-              <li>Supported CI/CD pipelines deploying to AWS EC2 and S3</li>
-              <li>Worked with Git and Docker for containerized deployments</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">04</span>
-          Projects
-        </div>
-        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
-          Things I've<br /><span style="color: var(--accent)">Built.</span>
-        </h2>
-        <div class="projects-grid">
-          <div class="project-card reveal">
-            <div class="project-num">01</div>
-            <div class="project-title">Leetcode Clone</div>
-            <p class="project-desc">
-              A LeetCode-style platform where users can solve coding problems,
-              run code against test cases, and track their progress.
-            </p>
-            <div class="tech-tags">
-              <span class="tag">React.ts</span>
-              <span class="tag">Spring Boot</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">AWS</span>
-            </div>
-            <div class="project-links">
-              <a
-                href="https://github.com/chaitanya-699/code_room"
-                target="_blank"
-                class="project-link"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
-                  />
-                </svg>
-                GitHub
+              <a href="https://github.com/chaitanya-699/ai-news-app" target="_blank" rel="noopener noreferrer" class="project-link">
+                View on GitHub →
               </a>
-            </div>
-          </div>
-          <div class="project-card reveal">
-            <div class="project-num">02</div>
-            <div class="project-title">AI-Powered News Mobile App</div>
-            <p class="project-desc">
-              A cross-platform mobile application delivering AI-curated news
-              with intelligent content summarization pipelines, workflow
-              automation, and scalable cloud infrastructure.
-            </p>
-            <div class="tech-tags">
-              <span class="tag">React Native</span>
-              <span class="tag">Spring Boot</span>
-              <span class="tag">FastAPI</span>
-              <span class="tag">AWS</span>
-              <span class="tag">MongoDB</span>
-              <span class="tag">n8n</span>
-            </div>
-            <div class="project-links">
-              <a
-                href="https://github.com/chaitanya-699/ai-news-app"
-                target="_blank"
-                class="project-link"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
-                  />
-                </svg>
-                GitHub
-              </a>
-            </div>
-          </div>
+            </article>
 
-          <div class="project-card reveal" style="transition-delay: 0.1s">
-            <div class="project-num">03</div>
-            <div class="project-title">AI News Web Platform</div>
-            <p class="project-desc">
-              A web-based news dashboard combining Next.js SSR with a robust
-              Spring Boot backend and FastAPI AI summarization. Deployed on
-              Google Cloud with real-time filtering.
-            </p>
-            <div class="tech-tags">
-              <span class="tag">Next.js</span>
-              <span class="tag">Spring Boot</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">FastAPI</span>
-              <span class="tag">GCP</span>
-            </div>
-            <div class="project-links">
-              <a
-                href="https://newsflow-ai.vercel.app/"
-                target="_blank"
-                class="project-link"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"
-                  />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
+            <article class="project-card reveal" data-category="fullstack">
+              <span class="project-num">03</span>
+              <h3 class="project-name">AI News Web Platform</h3>
+              <p class="project-desc">
+                Next.js SSR dashboard with Spring Boot backend and FastAPI AI summarization on GCP.
+              </p>
+              <div class="project-tags">
+                <span>Next.js</span><span>Spring Boot</span><span>FastAPI</span><span>GCP</span>
+              </div>
+              <a href="https://newsflow-ai.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                Live Demo →
               </a>
-            </div>
-          </div>
+            </article>
 
-          <div class="project-card reveal" style="transition-delay: 0.15s">
-            <div class="project-num">04</div>
-            <div class="project-title">Scalable URL Shortener</div>
-            <p class="project-desc">
-              A high-throughput URL shortening service with custom generation
-              algorithm, link expiration management, click analytics, and an
-              intuitive React frontend.
-            </p>
-            <div class="tech-tags">
-              <span class="tag">React.js</span>
-              <span class="tag">Spring Boot</span>
-              <span class="tag">MySQL</span>
-            </div>
-            <div class="project-links">
-              <a
-                href="https://url-shortener-flax-eta.vercel.app/"
-                target="_blank"
-                class="project-link"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"
-                  />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
+            <article class="project-card reveal" data-category="backend">
+              <span class="project-num">04</span>
+              <h3 class="project-name">URL Shortener</h3>
+              <p class="project-desc">
+                High-throughput URL shortening with custom generation, analytics, and expiration management.
+              </p>
+              <div class="project-tags">
+                <span>React.js</span><span>Spring Boot</span><span>MySQL</span>
+              </div>
+              <a href="https://url-shortener-flax-eta.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                Live Demo →
               </a>
-            </div>
-          </div>
+            </article>
 
-          <div class="project-card reveal" style="transition-delay: 0.2s">
-            <div class="project-num">05</div>
-            <div class="project-title">E-Commerce Platform</div>
-            <p class="project-desc">
-              Full-stack B2C e-commerce with secure auth, product catalog,
-              shopping cart, inventory tracking, order management, and a
-              complete admin dashboard.
-            </p>
-            <div class="tech-tags">
-              <span class="tag">Spring Boot</span>
-              <span class="tag">React</span>
-              <span class="tag">PostgreSQL</span>
-            </div>
-            <div class="project-links">
-              <a
-                href="https://github.com/chaitanya-699/liquor-store-ecommerce"
-                target="_blank"
-                class="project-link"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
-                  />
-                </svg>
-                GitHub
+            <article class="project-card reveal" data-category="fullstack">
+              <span class="project-num">05</span>
+              <h3 class="project-name">E-Commerce Platform</h3>
+              <p class="project-desc">
+                Full-stack B2C store with auth, cart, inventory, orders, and admin dashboard.
+              </p>
+              <div class="project-tags">
+                <span>Spring Boot</span><span>React</span><span>PostgreSQL</span>
+              </div>
+              <a href="https://github.com/chaitanya-699/liquor-store-ecommerce" target="_blank" rel="noopener noreferrer" class="project-link">
+                View on GitHub →
               </a>
-            </div>
+            </article>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- EDUCATION -->
-    <section id="education">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">05</span>
-          Education
-        </div>
-        <h2 class="section-heading reveal" style="margin-bottom: 3rem">
-          Academic<br /><span style="color: var(--accent)">Background.</span>
-        </h2>
-        <div class="edu-card reveal">
-          <div>
-            <div class="edu-degree">
-              B.Tech in Computer Science &amp; Engineering
+      <!-- EDUCATION -->
+      <section id="education">
+        <div class="container">
+          <header class="section-header reveal">
+            <span class="section-tag">05 — Education</span>
+            <h2 class="section-title">Academic<br /><em>foundation.</em></h2>
+          </header>
+
+          <div class="edu-card reveal">
+            <div class="edu-content">
+              <h3>B.Tech in Computer Science &amp; Engineering</h3>
+              <p class="edu-school">Nadimpalli Satyanarayana Raju Institute Of Technology</p>
+              <div class="edu-tags">
+                <span>Data Structures &amp; Algorithms</span>
+                <span>Distributed Databases</span>
+                <span>Software Engineering</span>
+                <span>Operating Systems</span>
+                <span>Web Development</span>
+                <span>Cloud Computing</span>
+              </div>
             </div>
-            <div class="edu-school">
-              Nadimpalli Satyanarayana Raju Institute Of Technology
-            </div>
-            <div class="edu-courses">
-              <span class="tag">Data Structures &amp; Algorithms</span>
-              <span class="tag">Distributed Databases</span>
-              <span class="tag">Software Engineering</span>
-              <span class="tag">Operating Systems</span>
-              <span class="tag">Web Development</span>
-              <span class="tag">Cloud Computing</span>
-            </div>
+            <div class="edu-year">2021 — 2025</div>
           </div>
-          <div class="edu-year">2021<br />—<br />2025</div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="section-inner">
-        <div class="section-label">
-          <span class="section-num">06</span>
-          Contact
-        </div>
-        <div class="contact-grid">
-          <div class="contact-left reveal">
-            <h2 class="section-heading">
-              Let's Build<br /><span style="color: var(--accent)"
-                >Together.</span
-              >
-            </h2>
-            <p class="contact-tagline">
-              Open to full-stack roles, collaborations, and interesting
-              projects. Drop me a line — I respond within 24 hours.
-            </p>
-            <div class="contact-links">
-              <a href="mailto:chaitanyapotti0@gmail.com" class="contact-link">
-                <div class="contact-link-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
-                    />
-                  </svg>
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="container">
+          <div class="contact-wrapper">
+            <div class="contact-left reveal">
+              <span class="section-tag">06 — Contact</span>
+              <h2 class="section-title">Let's build<br /><em>something great.</em></h2>
+              <p class="contact-desc">
+                Open to full-time roles, collaborations, and interesting projects.
+                I typically respond within 24 hours.
+              </p>
+
+              <div class="contact-links">
+                <a href="mailto:chaitanyapotti0@gmail.com" class="contact-item">
+                  <span class="contact-icon">✉️</span>
+                  <span>chaitanyapotti0@gmail.com</span>
+                </a>
+                <a href="https://github.com/chaitanya-699" target="_blank" rel="noopener noreferrer" class="contact-item">
+                  <span class="contact-icon">🔗</span>
+                  <span>github.com/chaitanya-699</span>
+                </a>
+                <a href="https://www.linkedin.com/in/chaitanya-p-566918348/" target="_blank" rel="noopener noreferrer" class="contact-item">
+                  <span class="contact-icon">💼</span>
+                  <span>linkedin.com/in/chaitanya-p-566918348</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-right reveal">
+              <div class="status-card">
+                <div class="status-header">
+                  <span class="pulse-dot"></span>
+                  <strong>Actively Looking</strong>
                 </div>
-                chaitanyapotti0@gmail.com
-              </a>
-              <a
-                href="https://github.com/chaitanya-699"
-                target="_blank"
-                class="contact-link"
-              >
-                <div class="contact-link-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
-                    />
-                  </svg>
-                </div>
-                github.com/chaitanya-699
-              </a>
-              <a
-                href="https://www.linkedin.com/in/chaitanya-p-566918348/"
-                target="_blank"
-                class="contact-link"
-              >
-                <div class="contact-link-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                    />
-                  </svg>
-                </div>
-                linkedin.com/in/chaitanya-p-566918348
-              </a>
-            </div>
-          </div>
-          <div class="contact-right reveal" style="transition-delay: 0.2s">
-            <div class="contact-card">
-              <div class="contact-card-title">Current Status</div>
-              <div class="contact-card-content">
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 0.6rem;
-                    margin-bottom: 0.5rem;
-                  "
-                >
-                  <span class="status-dot"></span>
-                  <strong style="color: var(--accent)">Actively Looking</strong>
-                </div>
-                Available for full-time roles, internships, and freelance
-                collaborations. Based in India with openness to remote or
-                relocation opportunities.
+                <p>Available for full-time roles, internships, and freelance work. Based in Chennai, open to remote or relocation.</p>
               </div>
-            </div>
-            <div class="contact-card">
-              <div class="contact-card-title">Interests</div>
-              <div class="contact-card-content">
-                Microservices Architecture · Cloud-Native Development · Backend
-                Optimization · System Design · AI/ML Integration in Applications
-              </div>
-            </div>
-            <div class="contact-card">
-              <div class="contact-card-title">Quick Download</div>
-              <div class="contact-card-content" style="margin-bottom: 1rem">
-                Get a copy of my resume for offline viewing.
+              <div class="interests-card">
+                <h4>Interests</h4>
+                <p>Microservices · Cloud-Native · Backend Optimization · System Design · AI/ML Integration</p>
               </div>
               <a
                 href="https://drive.google.com/file/d/1Vu6nm92wnGNKf3Xq02Hs1rado7zXwg13/view?usp=sharing"
                 target="_blank"
-                class="btn-primary"
-                style="display: inline-flex; font-size: 0.7rem"
+                rel="noopener noreferrer"
+                class="btn btn-primary btn-full"
               >
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
                 Download Resume
               </a>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- FOOTER -->
     <footer>
-      <span>© 2026 Chaitanya Potti. Designed &amp; Built with precision.</span>
-      <span>
-        <a href="https://github.com/chaitanya-699" target="_blank">GitHub</a>
-        &nbsp;·&nbsp;
-        <a
-          href="https://www.linkedin.com/in/chaitanya-p-566918348/"
-          target="_blank"
-          >LinkedIn</a
-        >
-      </span>
+      <p>© 2026 Chaitanya Potti. Built with care.</p>
+      <div class="footer-links">
+        <a href="https://github.com/chaitanya-699" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/chaitanya-p-566918348/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
     </footer>
 
-    <script
-      data-cfasync="false"
-      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-    ></script>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+
     <script src="script.js"></script>
   </body>
 </html>
