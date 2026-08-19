@@ -1,279 +1,252 @@
-const isTouchDevice = window.matchMedia("(hover: none)").matches;
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// ─── Custom cursor ───
-const cursor = document.getElementById("cursor");
-const cursorRing = document.getElementById("cursorRing");
-
-if (isTouchDevice || prefersReducedMotion) {
-  document.body.classList.add("no-cursor");
-  if (cursor) cursor.style.display = "none";
-  if (cursorRing) cursorRing.style.display = "none";
-} else if (cursor && cursorRing) {
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener("mousemove", (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.15;
-    ry += (my - ry) * 0.15;
-    cursorRing.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll("a, button, .project-card, .chip").forEach((el) => {
-    el.addEventListener("mouseenter", () => cursorRing.classList.add("hover"));
-    el.addEventListener("mouseleave", () => cursorRing.classList.remove("hover"));
-  });
+// CURSOR — hide on touch devices
+const isTouchDevice = window.matchMedia('(hover: none)').matches;
+if (isTouchDevice) {
+  document.getElementById('cursor').style.display = 'none';
+  document.getElementById('cursorRing').style.display = 'none';
 }
 
-// ─── Mobile nav ───
-const hamburger = document.getElementById("hamburger");
-const mobileNav = document.getElementById("mobileNav");
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx = 0,
+  my = 0,
+  rx = 0,
+  ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX;
+  my = e.clientY;
+  cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform += ' scale(2)';
+    cursorRing.style.transform += ' scale(1.5)';
+  });
+  el.addEventListener('mouseleave', () => {});
+});
 
+// HAMBURGER MENU
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  mobileNav.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
 function closeMenu() {
-  hamburger?.classList.remove("open");
-  mobileNav?.classList.remove("open");
-  hamburger?.setAttribute("aria-expanded", "false");
-  mobileNav?.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
+  hamburger.classList.remove('open');
+  mobileNav.classList.remove('open');
+  document.body.style.overflow = '';
 }
-
-hamburger?.addEventListener("click", () => {
-  const open = hamburger.classList.toggle("open");
-  mobileNav?.classList.toggle("open", open);
-  hamburger.setAttribute("aria-expanded", String(open));
-  mobileNav?.setAttribute("aria-hidden", String(!open));
-  document.body.style.overflow = open ? "hidden" : "";
+document.querySelectorAll('.nav-drawer-link').forEach(link => {
+  link.addEventListener('click', closeMenu);
 });
-
-document.querySelectorAll(".nav-drawer-link").forEach((link) => {
-  link.addEventListener("click", closeMenu);
-});
-
-mobileNav?.addEventListener("click", (e) => {
+// Close when tapping the backdrop (outside the links)
+mobileNav.addEventListener('click', e => {
   if (e.target === mobileNav) closeMenu();
 });
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeMenu();
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMenu();
 });
 
-// ─── Nav scroll + active section ───
-const navbar = document.getElementById("navbar");
-const navLinks = document.querySelectorAll(".nav-links a[data-section]");
-const sections = document.querySelectorAll("section[id]");
-
-window.addEventListener("scroll", () => {
-  navbar?.classList.toggle("scrolled", window.scrollY > 40);
-
-  const backToTop = document.getElementById("backToTop");
-  backToTop?.classList.toggle("visible", window.scrollY > 600);
-
-  let current = "";
-  sections.forEach((section) => {
-    const top = section.offsetTop - 120;
-    if (window.scrollY >= top) current = section.id;
-  });
-
-  navLinks.forEach((link) => {
-    link.classList.toggle("active", link.dataset.section === current);
-  });
+// NAV SCROLL
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-document.getElementById("backToTop")?.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-// ─── Hero local time ───
-const heroLocalTime = document.getElementById("heroLocalTime");
+// HERO STATUS TIME
+const heroLocalTime = document.getElementById('heroLocalTime');
 if (heroLocalTime) {
-  const formatter = new Intl.DateTimeFormat([], {
-    hour: "2-digit",
-    minute: "2-digit",
+  const timeFormatter = new Intl.DateTimeFormat([], {
+    hour: '2-digit',
+    minute: '2-digit',
     hour12: true,
-    timeZone: "Asia/Kolkata",
   });
 
-  const update = () => {
-    heroLocalTime.textContent = `${formatter.format(new Date())} IST`;
+  const updateHeroTime = () => {
+    heroLocalTime.textContent = timeFormatter.format(new Date());
   };
-  update();
-  setInterval(update, 60000);
+
+  updateHeroTime();
+  setInterval(updateHeroTime, 60000);
 }
 
-// ─── Role rotator ───
-const roleRotator = document.getElementById("roleRotator");
-if (roleRotator && !prefersReducedMotion) {
-  const roles = [
-    "Full-Stack Developer",
-    "Backend Engineer",
-    "React Developer",
-    "Cloud Enthusiast",
-  ];
-  let index = 0;
+// HERO INTERACTION (desktop): moving glow + 3D terminal tilt
+const hero = document.getElementById('hero');
+const glowPoint = document.querySelector('.glow-point');
+const tiltCard = document.getElementById('tilt-card');
+const heroLeft = document.querySelector('.hero-left');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  setInterval(() => {
-    roleRotator.style.opacity = "0";
-    roleRotator.style.transform = "translateY(8px)";
-    setTimeout(() => {
-      index = (index + 1) % roles.length;
-      roleRotator.textContent = roles[index];
-      roleRotator.style.opacity = "1";
-      roleRotator.style.transform = "translateY(0)";
-    }, 300);
-  }, 3000);
+if (hero && glowPoint && tiltCard && heroLeft && !isTouchDevice && !prefersReducedMotion) {
+  const maxTilt = 8;
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-  roleRotator.style.transition = "opacity 0.3s, transform 0.3s";
-}
-
-// ─── Terminal typing effect ───
-const typedLine = document.getElementById("typedLine");
-if (typedLine && !prefersReducedMotion) {
-  const commands = [
-    "npm run deploy",
-    "git push origin main",
-    "docker compose up -d",
-    "echo 'Hello World'",
-  ];
-  let cmdIndex = 0;
-  let charIndex = 0;
-  let deleting = false;
-
-  function typeCommand() {
-    const current = commands[cmdIndex];
-
-    if (!deleting) {
-      typedLine.textContent = current.slice(0, charIndex + 1);
-      charIndex++;
-      if (charIndex === current.length) {
-        deleting = true;
-        setTimeout(typeCommand, 2000);
-        return;
-      }
-    } else {
-      typedLine.textContent = current.slice(0, charIndex - 1);
-      charIndex--;
-      if (charIndex === 0) {
-        deleting = false;
-        cmdIndex = (cmdIndex + 1) % commands.length;
-      }
-    }
-
-    setTimeout(typeCommand, deleting ? 40 : 80);
-  }
-
-  setTimeout(typeCommand, 1500);
-}
-
-// ─── Hero 3D tilt ───
-const hero = document.getElementById("hero");
-const tiltCard = document.getElementById("tilt-card");
-
-if (hero && tiltCard && !isTouchDevice && !prefersReducedMotion) {
-  const maxTilt = 6;
-  let rect = hero.getBoundingClientRect();
+  let heroRect = hero.getBoundingClientRect();
+  let cardRect = tiltCard.getBoundingClientRect();
   let rafId = 0;
-  let inside = false;
-  let px = 0, py = 0;
-  let rx = 0, ry = 0;
-  let targetRx = 0, targetRy = 0;
+  let isInside = false;
 
-  const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+  let pointerX = heroRect.width / 2;
+  let pointerY = heroRect.height / 2;
+  let targetRotateX = 0;
+  let targetRotateY = 0;
+  let currentRotateX = 0;
+  let currentRotateY = 0;
+  let currentGlowX = pointerX;
+  let currentGlowY = pointerY;
 
-  function render() {
-    rafId = 0;
-    if (inside) {
-      const cx = px - (rect.left + rect.width / 2);
-      const cy = py - (rect.top + rect.height / 2);
-      targetRy = clamp((cx / rect.width) * maxTilt * 2, -maxTilt, maxTilt);
-      targetRx = clamp(-(cy / rect.height) * maxTilt * 2, -maxTilt, maxTilt);
-    } else {
-      targetRx = 0;
-      targetRy = 0;
-    }
-
-    rx += (targetRx - rx) * 0.12;
-    ry += (targetRy - ry) * 0.12;
-    tiltCard.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
-
-    if (inside || Math.abs(rx) > 0.05 || Math.abs(ry) > 0.05) {
-      rafId = requestAnimationFrame(render);
-    }
+  function refreshRects() {
+    heroRect = hero.getBoundingClientRect();
+    cardRect = tiltCard.getBoundingClientRect();
   }
 
-  hero.addEventListener("pointerenter", () => {
-    rect = hero.getBoundingClientRect();
-    inside = true;
-    if (!rafId) rafId = requestAnimationFrame(render);
+  function scheduleRender() {
+    if (!rafId) rafId = requestAnimationFrame(renderFrame);
+  }
+
+  function renderFrame() {
+    rafId = 0;
+
+    if (isInside) {
+      const cardX = pointerX + heroRect.left - cardRect.left;
+      const cardY = pointerY + heroRect.top - cardRect.top;
+      const normalizedX = clamp((cardX / cardRect.width) * 2 - 1, -1, 1);
+      const normalizedY = clamp((cardY / cardRect.height) * 2 - 1, -1, 1);
+      targetRotateX = -normalizedY * maxTilt;
+      targetRotateY = normalizedX * maxTilt;
+    } else {
+      targetRotateX = 0;
+      targetRotateY = 0;
+    }
+
+    currentRotateX += (targetRotateX - currentRotateX) * 0.14;
+    currentRotateY += (targetRotateY - currentRotateY) * 0.14;
+    currentGlowX += (pointerX - currentGlowX) * 0.2;
+    currentGlowY += (pointerY - currentGlowY) * 0.2;
+
+    const depth = Math.min(6, (Math.abs(currentRotateX) + Math.abs(currentRotateY)) * 0.28);
+    tiltCard.style.transform = `perspective(1200px) rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) translateZ(${depth.toFixed(2)}px)`;
+    glowPoint.style.transform = `translate3d(${currentGlowX.toFixed(1)}px, ${currentGlowY.toFixed(1)}px, 0) translate(-50%, -50%)`;
+    heroLeft.style.setProperty('--name-shift-x', `${(currentRotateY * 0.6).toFixed(2)}px`);
+    heroLeft.style.setProperty('--name-shift-y', `${(-currentRotateX * 0.45).toFixed(2)}px`);
+
+    const keepAnimating =
+      isInside || Math.abs(currentRotateX) > 0.05 || Math.abs(currentRotateY) > 0.05;
+    if (keepAnimating) scheduleRender();
+  }
+
+  hero.addEventListener('pointerenter', () => {
+    refreshRects();
+    isInside = true;
+    glowPoint.style.opacity = '1';
+    scheduleRender();
   });
 
-  hero.addEventListener("pointermove", (e) => {
-    px = e.clientX;
-    py = e.clientY;
-    if (!rafId) rafId = requestAnimationFrame(render);
+  hero.addEventListener('pointermove', e => {
+    pointerX = e.clientX - heroRect.left;
+    pointerY = e.clientY - heroRect.top;
+    scheduleRender();
   });
 
-  hero.addEventListener("pointerleave", () => {
-    inside = false;
-    if (!rafId) rafId = requestAnimationFrame(render);
+  hero.addEventListener('pointerleave', () => {
+    isInside = false;
+    glowPoint.style.opacity = '0';
+    scheduleRender();
   });
 
-  window.addEventListener("resize", () => {
-    rect = hero.getBoundingClientRect();
-  }, { passive: true });
+  window.addEventListener('resize', refreshRects, { passive: true });
+  window.addEventListener('scroll', refreshRects, { passive: true });
 }
 
-// ─── Scroll reveal + counter ───
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("visible");
-
-      entry.target.querySelectorAll("[data-count]").forEach((el) => {
-        if (el.dataset.counted) return;
-        el.dataset.counted = "true";
-        const target = parseInt(el.dataset.count, 10);
-        const duration = 1200;
-        const start = performance.now();
-
-        function tick(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(target * eased);
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      });
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Skill bars
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
     });
   },
-  { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+  { threshold: 0.15 }
 );
 
-document.querySelectorAll(".reveal, .timeline-card").forEach((el) => {
-  revealObserver.observe(el);
-});
+document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
 
-// ─── Project filters ───
-const filterBtns = document.querySelectorAll(".filter-btn");
-const projectCards = document.querySelectorAll(".projects-bento .project-card");
+// Skill bars on section enter
+const skillObs = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+          setTimeout(() => {
+            bar.style.width = bar.dataset.width + '%';
+          }, 200);
+        });
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.skill-group').forEach(el => skillObs.observe(el));
 
-filterBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    filterBtns.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+// IDE FILE EXPLORER TABS LOGIC
+const fileElements = document.querySelectorAll('.ide-file');
+const fileContents = document.querySelectorAll('.file-content');
+const ideTabs = document.getElementById('ide-tabs');
 
-    const filter = btn.dataset.filter;
-    projectCards.forEach((card) => {
-      const category = card.dataset.category;
-      const show = filter === "all" || category === filter;
-      card.classList.toggle("hidden", !show);
+if (fileElements.length > 0 && ideTabs) {
+  // Mapping for the tabs
+  const tabInfo = {
+    src: { icon: '📁', color: '#dcbdfb', name: 'src' },
+    skills: { icon: '⚡', color: '#2f81f7', name: 'Skills.ts' },
+    projects: { icon: '🛠️', color: '#8b949e', name: 'Projects.tsx' },
+    aboutme: { icon: '📝', color: '#a5d6ff', name: 'AboutMe.md' },
+    stats: { icon: '🧠', color: '#ff7b72', name: 'stats.json' },
+    readme: { icon: '📖', color: '#dcbdfb', name: 'README.md' },
+  };
+
+  fileElements.forEach(file => {
+    file.addEventListener('click', () => {
+      const fileId = file.getAttribute('data-file');
+
+      // Update sidebar active state
+      fileElements.forEach(f => f.classList.remove('active'));
+      file.classList.add('active');
+
+      // Update content active state
+      fileContents.forEach(content => {
+        content.style.display = 'none';
+        content.classList.remove('active');
+      });
+      const targetContent = document.getElementById(`content-${fileId}`);
+      if (targetContent) {
+        targetContent.style.display = 'block';
+        targetContent.classList.add('active');
+      }
+
+      // Update Tab
+      const info = tabInfo[fileId];
+      if (info) {
+        ideTabs.innerHTML = `
+          <div class="ide-tab active" data-file="${fileId}">
+            <span class="icon" style="color: ${info.color}">${info.icon}</span> ${info.name}
+          </div>
+        `;
+      }
     });
   });
-});
+}
